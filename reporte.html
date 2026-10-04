@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CRM Data Audit Report — $149 | CRM Cleanup</title>
+<meta name="description" content="Find out what your dirty CRM costs you annually. Send your CSV, get a full data quality audit with the economic number. $149, fixed scope, 48h.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0a1220;--body:#41546e;--muted:#6b7f9b;
+  --teal:#0d7f72;--teal-d:#095a51;--teal-l:#e4f4f1;
+  --amber:#c2760a;--amber-l:#fdf3e2;
+  --line:#dde7f0;--bg:#f5f9fc;
+  --sans:'IBM Plex Sans',sans-serif;
+  --display:'Space Grotesk',sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:400 17px/1.65 var(--sans);color:var(--body);background:#fff;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:980px;margin:0 auto;padding:0 28px}
+.rv{opacity:0;transform:translateY(24px);
+  transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.rv.in{opacity:1;transform:none}
+
+/* NAV */
+nav{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:60}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:66px}
+.brand{display:flex;align-items:center;gap:11px;color:var(--ink);
+  font-family:var(--display);font-weight:700;font-size:17px;text-decoration:none;
+  letter-spacing:-.4px}
+.brand .mark{width:26px;height:26px;border-radius:7px;background:var(--teal);
+  position:relative;flex:0 0 26px;display:flex;align-items:center;
+  justify-content:center}
+.brand .mark::after{content:'';width:11px;height:11px;border:2px solid #fff;
+  border-radius:2px;border-right-color:transparent;border-bottom-color:transparent;
+  transform:rotate(-45deg)}
+nav a.back{color:var(--muted);text-decoration:none;font-size:15px;
+  display:flex;align-items:center;gap:7px}
+nav a.back:hover{color:var(--ink)}
+
+/* HERO */
+header{background:var(--ink);color:#fff;padding:76px 0 68px;position:relative;
+  overflow:hidden}
+header::after{content:'';position:absolute;top:-300px;right:-160px;width:620px;
+  height:620px;border-radius:50%;
+  background:radial-gradient(circle,rgba(13,127,114,.28),transparent 62%)}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;color:#5fdcc9;
+  font-size:12.5px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;
+  margin-bottom:22px}
+.eyebrow::before{content:'';width:26px;height:1.5px;background:#5fdcc9}
+h1{font-family:var(--display);font-size:50px;line-height:1.08;font-weight:700;
+  letter-spacing:-2px;margin-bottom:20px;position:relative;z-index:2}
+h1 em{font-style:normal;color:#5fdcc9}
+.lede{font-size:19px;line-height:1.6;color:#c2d3e6;max-width:600px;
+  margin-bottom:34px;position:relative;z-index:2}
+.price-row{display:flex;align-items:baseline;gap:14px;margin-bottom:8px;
+  position:relative;z-index:2}
+.price{font-family:var(--display);font-size:64px;font-weight:700;color:#fff;
+  letter-spacing:-3px;line-height:1}
+.price-note{color:#8ba1bb;font-size:15px}
+.trust{display:flex;gap:24px;margin-top:26px;flex-wrap:wrap;
+  position:relative;z-index:2}
+.trust span{display:flex;align-items:center;gap:8px;font-size:14px;color:#a9bdd4}
+.trust span::before{content:'';width:5px;height:5px;border-radius:50%;
+  background:#5fdcc9;flex:0 0 5px}
+
+/* TWO COL */
+.two{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;
+  align-items:center;position:relative;z-index:2;margin-top:44px}
+
+/* PREVIEW */
+.prev{background:#fbfcfd;border-radius:11px;overflow:hidden;
+  box-shadow:0 26px 64px rgba(0,0,0,.34)}
+.prev-bar{background:#eef3f8;padding:11px 15px;display:flex;align-items:center;
+  gap:7px;border-bottom:1px solid var(--line)}
+.prev-bar i{width:9px;height:9px;border-radius:50%;background:#ccd9e6;display:block}
+.prev-bar b{margin-left:9px;font-family:var(--mono);font-size:11.5px;
+  color:var(--muted);font-weight:500}
+.prev-bar .tag{margin-left:auto;background:var(--amber-l);color:var(--amber);
+  padding:2.5px 9px;border-radius:4px;font-size:10px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.6px}
+.prev-body{padding:24px}
+.pv-lab{font-family:var(--mono);font-size:11px;color:var(--muted);
+  text-transform:uppercase;letter-spacing:1.1px;margin-bottom:12px}
+.pv-big{font-family:var(--display);font-size:42px;font-weight:700;
+  color:var(--teal);letter-spacing:-2px;line-height:1;margin-bottom:20px;
+  padding-bottom:20px;border-bottom:1px solid var(--line)}
+.pv-row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;
+  font-size:14px;border-bottom:1px solid #eef3f8}
+.pv-row:last-of-type{border-bottom:0}
+.pv-row .k{color:var(--body)}
+.pv-row .v{font-family:var(--mono);font-weight:500;color:var(--ink);font-size:13px}
+
+/* SECTIONS */
+section{padding:72px 0}
+section.alt{background:var(--bg)}
+h2{font-family:var(--display);font-size:34px;font-weight:700;color:var(--ink);
+  letter-spacing:-1.2px;line-height:1.15;margin-bottom:14px}
+.sub{font-size:18px;color:var(--muted);max-width:640px;margin-bottom:38px;
+  line-height:1.6}
+.kicker{font-family:var(--mono);font-size:12px;color:var(--teal);
+  text-transform:uppercase;letter-spacing:1.3px;margin-bottom:13px;display:block}
+
+/* INCLUDES */
+.inc{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.ic{background:#fff;padding:28px 26px}
+.ic h3{font-family:var(--display);font-size:18px;color:var(--ink);font-weight:600;
+  margin-bottom:9px;letter-spacing:-.3px}
+.ic p{font-size:15px;line-height:1.6}
+.ic .num{font-family:var(--mono);font-size:11px;color:var(--teal);
+  letter-spacing:1px;margin-bottom:13px;display:block}
+
+/* STEPS */
+.steps{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);
+  border-radius:10px;overflow:hidden}
+.step{display:grid;grid-template-columns:56px 1fr auto;gap:18px;
+  align-items:center;padding:22px 26px;background:#fff}
+.step .n{font-family:var(--display);font-size:24px;font-weight:700;
+  color:var(--line);letter-spacing:-1px}
+.step h4{font-family:var(--display);font-size:17px;color:var(--ink);
+  font-weight:600;margin-bottom:5px}
+.step p{font-size:15px;color:var(--muted);line-height:1.55}
+.step .t{font-family:var(--mono);font-size:11.5px;color:var(--muted);
+  white-space:nowrap;padding:5px 11px;background:var(--bg);border-radius:4px}
+
+/* BUY BOX */
+.buy{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start}
+.box{background:#fff;border:1.5px solid var(--teal);border-radius:13px;padding:32px;
+  box-shadow:0 14px 40px rgba(13,127,114,.09)}
+.box .amt{font-family:var(--display);font-size:52px;font-weight:700;
+  color:var(--ink);letter-spacing:-2.4px;line-height:1;margin-bottom:6px}
+.box .per{color:var(--muted);font-size:15px;margin-bottom:22px}
+.btn{display:block;width:100%;text-align:center;background:var(--teal);color:#fff;
+  padding:17px;border-radius:8px;text-decoration:none;font-weight:600;
+  font-size:17px;transition:background .2s,transform .2s var(--ease);
+  border:0;cursor:pointer;font-family:var(--sans)}
+.btn:hover{background:var(--teal-d);transform:translateY(-1px)}
+.box .guar{margin-top:16px;font-size:13.5px;color:var(--muted);line-height:1.55;
+  text-align:center}
+.alt-opts{display:grid;gap:16px}
+.opt{border:1px solid var(--line);border-radius:10px;padding:22px;background:#fff;
+  transition:border-color .2s}
+.opt:hover{border-color:#a9ccc4}
+.opt h4{font-family:var(--display);font-size:17px;color:var(--ink);font-weight:600;
+  margin-bottom:6px}
+.opt p{font-size:14.5px;color:var(--muted);line-height:1.55;margin-bottom:9px}
+.opt .p{font-family:var(--display);font-size:22px;font-weight:700;color:var(--teal);
+  letter-spacing:-.8px}
+
+/* FAQ */
+.faq details{border-bottom:1px solid var(--line);padding:20px 0}
+.faq summary{cursor:pointer;font-family:var(--display);font-size:17px;
+  font-weight:600;color:var(--ink);list-style:none;display:flex;
+  justify-content:space-between;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq p{margin-top:14px;font-size:15.5px;line-height:1.65;max-width:680px}
+
+footer{background:#060d19;color:#6b7f9b;padding:32px 0;font-size:14px}
+footer b{color:#c2d3e6;font-weight:500}
+
+@media(max-width:900px){
+  .two,.buy,.inc{grid-template-columns:1fr}
+  h1{font-size:38px}.price{font-size:50px}
+  .step{grid-template-columns:44px 1fr;gap:14px}
+  .step .t{grid-column:2;justify-self:start}
+}
+@media(max-width:560px){.wrap{padding:0 20px}h1{font-size:30px}}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .rv{opacity:1;transform:none}}
+</style></head><body>
+
+<nav><div class="wrap">
+  <a class="brand" href="index.html"><span class="mark"></span>CRM Cleanup</a>
+  <a class="back" href="index.html">&larr; Back to overview</a>
+</div></nav>
+
+<header><div class="wrap">
+  <div class="eyebrow">Fixed scope &middot; 48 hours</div>
+  <h1>Find out what your dirty CRM<br><em>actually costs you.</em></h1>
+  <p class="lede">Send me your CRM export. I run a full data quality audit
+  and hand you a report with the annual cost in wasted rep hours and
+  unworked leads &mdash; calculated from your own cost per rep, not an
+  industry average.</p>
+
+  <div class="two">
+    <div>
+      <div class="price-row">
+        <span class="price">$149</span>
+        <span class="price-note">one-time &middot; fixed scope</span>
+      </div>
+      <div class="trust">
+        <span>48-hour turnaround</span>
+        <span>Your CRM never connected</span>
+        <span>Nothing deleted</span>
+      </div>
+    </div>
+    <div class="prev">
+      <div class="prev-bar">
+        <i></i><i></i><i></i>
+        <b>crm-data-audit-report.pdf</b>
+        <span class="tag">sample</span>
+      </div>
+      <div class="prev-body">
+        <div class="pv-lab">Estimated annual cost of your data quality</div>
+        <div class="pv-big">$15,657</div>
+        <div class="pv-row"><span class="k">Rep hours on dedupe &amp; lookups</span><span class="v">$12,157</span></div>
+        <div class="pv-row"><span class="k">Revenue from forgotten leads</span><span class="v">$3,500</span></div>
+        <div class="pv-row"><span class="k">Bounced sends &amp; reputation</span><span class="v">$0</span></div>
+        <div class="pv-row"><span class="k">Duplicates resolved</span><span class="v">119</span></div>
+        <div class="pv-row"><span class="k">Empty fields recovered</span><span class="v">92</span></div>
+      </div>
+    </div>
+  </div>
+</div></header>
+
+<section><div class="wrap">
+  <span class="kicker rv">What you get</span>
+  <h2 class="rv">A report, not a sales call.</h2>
+  <p class="sub rv">Fixed scope, one price. No hourly billing, no discovery
+  fee, no obligation to buy anything else.</p>
+  <div class="inc rv">
+    <div class="ic"><span class="num">01 / RESOLUTION</span>
+      <h3>Duplicate records resolved by entity</h3>
+      <p>"John Smith", "J. Smith" and "Jon Smyth" at one company resolve to
+      one person. Exact-match dedupe catches none of them.</p></div>
+    <div class="ic"><span class="num">02 / RECOVERY</span>
+      <h3>Empty fields recovered</h3>
+      <p>Values held in one duplicate fill blanks in another. 92 recovered on
+      the sample run. Merging without this destroys data.</p></div>
+    <div class="ic"><span class="num">03 / STALENESS</span>
+      <h3>Forgotten leads separated from dead ones</h3>
+      <p>90+ days of no activity, split from already-closed records. A list
+      you can actually work.</p></div>
+    <div class="ic"><span class="num">04 / EMAIL HYGIENE</span>
+      <h3>Emails that will actually bounce</h3>
+      <p>MX records checked live. On a bad list this was 37.5% of unique
+      addresses &mdash; each one is a damaged sending reputation.</p></div>
+  </div>
+</div></section>
+
+<section class="alt"><div class="wrap">
+  <span class="kicker rv">Process</span>
+  <h2 class="rv">Four steps, no meetings.</h2>
+  <div class="steps rv">
+    <div class="step"><div class="n">01</div>
+      <div><h4>You send your CRM export</h4>
+        <p>CSV from HubSpot, Salesforce, Pipedrive, Zoho or Dynamics. English
+        or Spanish column names, detected automatically.</p></div>
+      <div class="t">you: 2 min</div></div>
+    <div class="step"><div class="n">02</div>
+      <div><h4>I run the audit on the copy</h4>
+        <p>Entity resolution, normalization, staleness, email validation and
+        the economic model. Your live system is never connected.</p></div>
+      <div class="t">engine: &lt;2 min</div></div>
+    <div class="step"><div class="n">03</div>
+      <div><h4>You get the report</h4>
+        <p>A PDF with the numbers, the cost model with editable assumptions,
+        and the duplicate list with each merge justified.</p></div>
+      <div class="t">within 48h</div></div>
+    <div class="step"><div class="n">04</div>
+      <div><h4>You decide what to do about it</h4>
+        <p>Take the report to your boss, or ask me to run the cleanup. No
+        follow-up sequence.</p></div>
+      <div class="t">your call</div></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <span class="kicker rv">Get started</span>
+  <h2 class="rv">Buy the report.</h2>
+  <p class="sub rv">If the number is worth more than $149, you already know
+  what to do with it. If it isn't, you kept a free audit of your own data.</p>
+
+  <div class="buy">
+    <div class="box rv">
+      <div class="amt">$149</div>
+      <div class="per">Fixed scope &middot; one time &middot; 48 hours</div>
+      <a class="btn" href="mailto:proposals@outreach.cesarbuilds.com?subject=CRM%20Data%20Audit%20%24%20149&amp;body=Hi%20Cesar%2C%0A%0AI'd%20like%20to%20buy%20the%20CRM%20data%20audit%20report%20for%20%24149.%0A%0AName%3A%0ACompany%3A%0ACRM%3A%0AApprox%20records%3A%0A%0AI'll%20send%20my%20export%20once%20you%20send%20the%20payment%20link.%0A%0AThanks%21">Request the audit &rarr;</a>
+      <div class="guar">Payment link sent within 24h. Report delivered in
+      48h from receiving your export. If the report isn't useful, tell me
+      and I'll refund it.</div>
+    </div>
+
+    <div class="alt-opts rv rv-d1">
+      <div class="opt"><h4>Full cleanup sprint</h4>
+        <p>Audit plus the actual cleanup: deduplication, normalization,
+        enrichment, merge plan approved before anything is applied.</p>
+        <span class="p">$12,000</span></div>
+      <div class="opt"><h4>Ongoing hygiene</h4>
+        <p>Same audit every month so the data quality doesn't drift back.
+        Cancel any month.</p>
+        <span class="p">$5,000/mo</span></div>
+      <div class="opt"><h4>Agency / white-label</h4>
+        <p>You keep the client relationship and the margin. I deliver under
+        your brand. From $750 per sprint.</p>
+        <span class="p">from $750</span></div>
+    </div>
+  </div>
+</div></section>
+
+<section class="alt"><div class="wrap">
+  <span class="kicker rv">FAQ</span>
+  <h2 class="rv">Questions</h2>
+  <div class="faq rv rv-d1" style="margin-top:30px">
+    <details><summary>Is my data safe?</summary>
+      <p>I never connect to your live CRM. You send a CSV export, I work on
+      that file, and it's deleted on request after the report. I'd rather
+      lose the data than your trust.</p></details>
+    <details><summary>What exactly is in the report?</summary>
+      <p>A PDF with: records analyzed, duplicates found and resolved, empty
+      fields recovered, stale records flagged, invalid emails with the
+      reason each one fails, and the economic model with every assumption
+      listed so you can change them.</p></details>
+    <details><summary>Will you delete anything from my CRM?</summary>
+      <p>No. I never connect to your CRM, so I can't. Everything I produce
+      is a proposal &mdash; including the merge list, where each pair comes
+      with the score that justified it and which record survives.</p></details>
+    <details><summary>What if my file is huge?</summary>
+      <p>Up to 50,000 rows is included. Above that I'll tell you the real
+      price before doing anything, rather than discovering it halfway
+      through.</p></details>
+    <details><summary>Is the number real or an estimate?</summary>
+      <p>Both, and the report says which is which. The duplicate counts come
+      from your file and are exact. The dollar figures are a model built on
+      assumptions you can see and change &mdash; your cost per rep, your
+      conversion rate, your average deal size. If you disagree with an
+      assumption, we change it and the number moves.</p></details>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div><b>CRM Cleanup</b> &middot; Cesar Rosales &middot;
+    proposals@outreach.cesarbuilds.com</div>
+  <div>Entity resolution, deduplication, and the business case for fixing it.</div>
+</div></footer>
+
+<script>
+(function(){
+  var rv=document.querySelectorAll('.rv');
+  if(!('IntersectionObserver' in window)){rv.forEach(function(e){e.classList.add('in');});return;}
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},
+    {threshold:.12,rootMargin:'0px 0px -50px 0px'});
+  rv.forEach(function(e){io.observe(e);});
+})();
+</script>
+
+</body></html>
