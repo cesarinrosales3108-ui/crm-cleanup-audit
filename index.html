@@ -1,461 +1,608 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CRM Cleanup — See what your dirty CRM costs you</title>
-<meta name="description" content="Free CRM data quality audit. Find the duplicates, recover the missing fields, and see the annual cost in wasted rep hours and unworked leads. Nothing deleted without your approval.">
+<title>CRM Cleanup — the number your dirty CRM costs you</title>
+<meta name="description" content="Free CRM data quality audit. Find duplicates, recover missing fields, and get the annual cost in wasted rep hours and unworked leads. Nothing deleted without your approval.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#0b1526;
-  --ink2:#142338;
-  --body:#3d4f66;
-  --muted:#6b7f99;
-  --teal:#0e8a7d;
-  --teal-d:#0a6a60;
-  --teal-l:#e6f5f2;
-  --line:#dfe8f0;
-  --bg:#f6f9fc;
-  --white:#fff;
+  --ink:#0a1220;      --ink-2:#101d30;
+  --body:#41546e;     --muted:#6b7f9b;
+  --teal:#0f8f80;     --teal-d:#0a6a5e;  --teal-l:#e4f4f1;
+  --amber:#c2760a;    --amber-l:#fdf3e2;
+  --line:#dde7f0;     --bg:#f5f9fc;
+  --sans:'IBM Plex Sans',-apple-system,sans-serif;
+  --display:'Space Grotesk',-apple-system,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --ease:cubic-bezier(.22,1,.36,1);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{
-  font:400 17px/1.65 'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  color:var(--body);background:var(--white);
-  -webkit-font-smoothing:antialiased;
-}
-.wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font:400 17px/1.68 var(--sans);color:var(--body);background:#fff;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+.wrap{max-width:1140px;margin:0 auto;padding:0 30px}
 
-/* ---------- NAV ---------- */
-nav{background:rgba(11,21,38,.92);backdrop-filter:blur(10px);
-  position:sticky;top:0;z-index:50;border-bottom:1px solid rgba(255,255,255,.08)}
+/* ============ REVEAL ============ */
+.rv{opacity:0;transform:translateY(26px);
+  transition:opacity .82s var(--ease),transform .82s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.rv-d1{transition-delay:.09s}.rv-d2{transition-delay:.18s}
+.rv-d3{transition-delay:.27s}.rv-d4{transition-delay:.36s}
+.rv-d5{transition-delay:.45s}.rv-d6{transition-delay:.54s}
+
+/* ============ NAV (sin blur: elevacion por borde) ============ */
+nav{background:#fff;border-bottom:1px solid var(--line);
+  position:sticky;top:0;z-index:60}
 nav .wrap{display:flex;align-items:center;justify-content:space-between;
-  height:64px}
-.brand{display:flex;align-items:center;gap:10px;
-  color:#fff;font-weight:700;font-size:17px;letter-spacing:-.2px}
-.brand .dot{width:9px;height:9px;border-radius:50%;background:var(--teal);
-  box-shadow:0 0 0 4px rgba(14,138,125,.18)}
-nav a.cta{background:var(--teal);color:#fff;padding:10px 20px;
-  border-radius:6px;text-decoration:none;font-weight:600;font-size:14.5px;
-  transition:background .15s}
-nav a.cta:hover{background:var(--teal-d)}
+  height:66px}
+.brand{display:flex;align-items:center;gap:11px;color:var(--ink);
+  font-family:var(--display);font-weight:700;font-size:17.5px;
+  letter-spacing:-.4px;text-decoration:none}
+.brand .dot{width:8px;height:8px;border-radius:50%;background:var(--teal);
+  position:relative}
+.brand .dot::after{content:'';position:absolute;inset:-4px;
+  border:1px solid var(--teal);border-radius:50%;opacity:.32;
+  animation:pulse 2.8s var(--ease) infinite}
+@keyframes pulse{0%{transform:scale(.82);opacity:.5}
+  70%{transform:scale(1.35);opacity:0}100%{opacity:0}}
+.nav-r{display:flex;align-items:center;gap:30px}
+.nav-r a{color:var(--body);text-decoration:none;font-size:15px;
+  font-weight:500;position:relative;padding:4px 0}
+.nav-r a::after{content:'';position:absolute;left:0;bottom:0;width:100%;
+  height:1.5px;background:var(--teal);transform:scaleX(0);
+  transform-origin:right;transition:transform .42s var(--ease)}
+.nav-r a:hover{color:var(--ink)}
+.nav-r a:hover::after{transform:scaleX(1);transform-origin:left}
+.nav-r .cta{background:var(--teal);color:#fff;padding:10px 20px;
+  border-radius:6px;font-weight:600}
+.nav-r .cta::after{display:none}
+.nav-r .cta:hover{background:var(--teal-d)}
 
-/* ---------- HERO ---------- */
+/* ============ HERO ============ */
 header{background:var(--ink);color:#fff;position:relative;overflow:hidden}
-header::before{content:'';position:absolute;top:-320px;right:-180px;
-  width:900px;height:900px;border-radius:50%;
-  background:radial-gradient(circle,rgba(14,138,125,.20),transparent 62%)}
-header::after{content:'';position:absolute;bottom:-240px;left:-200px;
-  width:620px;height:620px;border-radius:50%;
-  background:radial-gradient(circle,rgba(56,120,220,.13),transparent 65%)}
-.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:52px;
-  align-items:center;padding:82px 0 76px;position:relative;z-index:2}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;
-  background:rgba(14,138,125,.16);color:#5ee0d0;
-  padding:7px 14px;border-radius:20px;font-size:13px;font-weight:600;
-  letter-spacing:.3px;margin-bottom:22px;
-  border:1px solid rgba(14,138,125,.3)}
-h1{font-size:53px;line-height:1.08;font-weight:800;letter-spacing:-1.7px;
-  color:#fff;margin-bottom:20px}
-h1 em{font-style:normal;color:#5ee0d0}
-.lede{font-size:19px;line-height:1.6;color:#a9bdd4;max-width:520px;
-  margin-bottom:32px}
-.cta-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-.btn{background:var(--teal);color:#fff;padding:16px 30px;border-radius:7px;
-  text-decoration:none;font-weight:600;font-size:16.5px;display:inline-block;
-  transition:transform .12s,background .15s;border:0;cursor:pointer;
-  font-family:inherit}
-.btn:hover{background:var(--teal-d);transform:translateY(-1px)}
-.btn.ghost{background:transparent;color:#c8d8ea;
-  border:1.5px solid rgba(255,255,255,.22)}
-.btn.ghost:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.4)}
-.trust{display:flex;gap:22px;margin-top:30px;flex-wrap:wrap}
-.trust span{display:flex;align-items:center;gap:7px;font-size:13.5px;
-  color:#8ba3bd}
-.trust span::before{content:'';width:15px;height:15px;border-radius:50%;
-  background:rgba(14,138,125,.3);flex:0 0 15px}
+.glow{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none}
+.glow.a{width:640px;height:640px;background:rgba(15,143,128,.30);
+  top:-280px;right:-140px;animation:drift 22s ease-in-out infinite alternate}
+.glow.b{width:520px;height:520px;background:rgba(52,96,168,.22);
+  bottom:-260px;left:-180px;animation:drift 27s ease-in-out infinite alternate-reverse}
+@keyframes drift{0%{transform:translate(0,0) scale(1)}
+  100%{transform:translate(-70px,50px) scale(1.16)}}
+.grid-bg{position:absolute;inset:0;opacity:.05;
+  background-image:linear-gradient(#fff 1px,transparent 1px),
+    linear-gradient(90deg,#fff 1px,transparent 1px);
+  background-size:62px 62px;
+  mask-image:radial-gradient(ellipse 80% 70% at 50% 40%,#000,transparent)}
 
-/* ---------- HERO PREVIEW (producto real) ---------- */
-.preview{background:var(--white);border-radius:12px;overflow:hidden;
-  box-shadow:0 28px 70px rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.1)}
-.pv-bar{background:#f0f4f8;padding:11px 16px;display:flex;align-items:center;
-  gap:7px;border-bottom:1px solid var(--line)}
-.pv-bar i{width:9px;height:9px;border-radius:50%;background:#cfdae6;
-  display:block}
-.pv-bar b{margin-left:8px;font-size:12px;color:var(--muted);font-weight:600}
-.pv-sample{margin-left:auto;background:#ffe9c7;color:#8a5a00;padding:2px 8px;border-radius:4px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
-.pv-body{padding:22px}
-.pv-title{font-size:12px;font-weight:700;color:var(--muted);
-  text-transform:uppercase;letter-spacing:.7px;margin-bottom:14px}
-.pv-big{display:flex;align-items:baseline;gap:9px;margin-bottom:20px;
-  padding-bottom:20px;border-bottom:1px solid var(--line)}
-.pv-big .amt{font-size:42px;font-weight:800;color:var(--teal);
-  letter-spacing:-1.5px;line-height:1}
-.pv-big .lbl{font-size:13.5px;color:var(--muted);line-height:1.35}
-.pv-rows{display:grid;gap:11px}
-.pv-row{display:flex;align-items:center;gap:12px;font-size:13.5px}
-.pv-row .k{color:var(--body);flex:1}
-.pv-row .v{font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
-.pv-chip{display:inline-block;background:var(--teal-l);color:var(--teal-d);
-  padding:2px 9px;border-radius:4px;font-size:11.5px;font-weight:700;
-  margin-left:6px}
-.pv-note{margin-top:18px;padding:11px 13px;background:var(--teal-l);
-  border-radius:6px;font-size:12px;color:var(--teal-d);line-height:1.45}
+.hero{display:grid;grid-template-columns:1.02fr .98fr;gap:54px;
+  align-items:center;padding:88px 0 82px;position:relative;z-index:2}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;
+  color:#5fdcc9;font-size:13px;font-weight:600;letter-spacing:.5px;
+  text-transform:uppercase;margin-bottom:24px}
+.eyebrow::before{content:'';width:26px;height:1.5px;background:#5fdcc9}
+h1{font-family:var(--display);font-size:56px;line-height:1.06;
+  font-weight:700;letter-spacing:-2.2px;color:#fff;margin-bottom:22px}
+h1 .ln{display:block;overflow:hidden}
+h1 .ln>span{display:block;transform:translateY(105%);
+  animation:up .95s var(--ease) forwards}
+h1 .ln:nth-child(2)>span{animation-delay:.11s}
+h1 .ln:nth-child(3)>span{animation-delay:.22s}
+@keyframes up{to{transform:none}}
+h1 em{font-style:normal;color:#5fdcc9}
+.lede{font-size:19px;line-height:1.62;color:#a3b8d0;max-width:510px;
+  margin-bottom:34px;opacity:0;animation:fade .9s var(--ease) .42s forwards}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.cta-row{display:flex;gap:14px;flex-wrap:wrap;opacity:0;
+  animation:fade .9s var(--ease) .55s forwards}
+.btn{display:inline-flex;align-items:center;gap:9px;
+  background:var(--teal);color:#fff;padding:16px 30px;border-radius:7px;
+  text-decoration:none;font-weight:600;font-size:16.5px;
+  transition:transform .2s var(--ease),background .2s;font-family:var(--sans)}
+.btn:hover{background:var(--teal-d);transform:translateY(-2px)}
+.btn .arw{transition:transform .28s var(--ease)}
+.btn:hover .arw{transform:translateX(4px)}
+.btn.ghost{background:transparent;color:#c2d3e6;
+  border:1.5px solid rgba(255,255,255,.2)}
+.btn.ghost:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.42)}
+.trust{display:flex;gap:26px;margin-top:34px;flex-wrap:wrap;
+  opacity:0;animation:fade .9s var(--ease) .68s forwards}
+.trust span{display:flex;align-items:center;gap:8px;font-size:13.5px;color:#8ba1bb}
+.trust span::before{content:'';width:5px;height:5px;border-radius:50%;
+  background:#5fdcc9;flex:0 0 5px}
 
-/* ---------- SECCIONES ---------- */
-section{padding:78px 0}
-section.alt{background:var(--bg)}
-h2{font-size:35px;font-weight:800;color:var(--ink);letter-spacing:-1px;
-  line-height:1.15;margin-bottom:14px}
-.sub{font-size:18.5px;color:var(--muted);max-width:660px;
-  line-height:1.6;margin-bottom:40px}
-
-/* ---------- 2x2 GRID ---------- */
-.feat{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
-.f-card{background:var(--white);border:1px solid var(--line);
-  border-radius:11px;padding:28px;transition:border-color .15s,box-shadow .15s}
-.f-card:hover{border-color:#b9cfc9;box-shadow:0 8px 26px rgba(14,138,125,.07)}
-.f-ico{width:40px;height:40px;border-radius:9px;background:var(--teal-l);
-  display:flex;align-items:center;justify-content:center;margin-bottom:16px}
-.f-ico svg{width:20px;height:20px;stroke:var(--teal-d);fill:none;
-  stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.f-card h3{font-size:19px;color:var(--ink);font-weight:700;margin-bottom:9px;
-  letter-spacing:-.3px}
-.f-card p{font-size:15.5px;line-height:1.6;color:var(--body)}
-.f-card code{background:var(--bg);padding:1.5px 6px;border-radius:4px;
-  font-size:14px;color:var(--ink);font-family:ui-monospace,monospace}
-
-/* ---------- RESULT PANEL ---------- */
-.result{display:grid;grid-template-columns:.85fr 1.15fr;gap:44px;
-  align-items:center;margin-top:14px}
-.res-head{background:var(--ink);color:#fff;border-radius:12px;
-  padding:32px}
-.res-head .amt{font-size:56px;font-weight:800;color:#5ee0d0;
-  letter-spacing:-2.4px;line-height:1;margin:8px 0 6px}
-.res-head .sub{color:#a9bdd4;font-size:15px;margin:0 0 22px}
-.res-head ul{list-style:none;display:grid;gap:11px;
-  padding-top:20px;border-top:1px solid rgba(255,255,255,.13)}
-.res-head li{display:flex;gap:11px;font-size:14.5px;color:#c3d4e6}
-.res-head li::before{content:'';width:16px;height:16px;border-radius:50%;
-  background:rgba(14,138,125,.35);flex:0 0 16px;margin-top:3px}
-.tbl{background:var(--white);border:1px solid var(--line);
-  border-radius:11px;overflow:hidden}
-.tbl-h{background:var(--bg);padding:13px 18px;font-size:12px;
-  font-weight:700;color:var(--muted);text-transform:uppercase;
-  letter-spacing:.7px;border-bottom:1px solid var(--line)}
-.tbl-r{display:flex;justify-content:space-between;align-items:center;
-  padding:15px 18px;border-bottom:1px solid var(--line);font-size:15px}
-.tbl-r:last-child{border-bottom:0}
-.tbl-r .k{color:var(--body)}
-.tbl-r .v{font-weight:700;color:var(--ink);
+/* ---- PREVIEW con scan line ---- */
+.preview{background:#fff;border-radius:11px;overflow:hidden;
+  box-shadow:0 34px 84px rgba(0,0,0,.44);position:relative;
+  opacity:0;animation:cardIn 1.05s var(--ease) .34s forwards}
+@keyframes cardIn{from{opacity:0;transform:translateY(38px) scale(.975)}
+  to{opacity:1;transform:none}}
+.scan{position:absolute;left:0;right:0;height:64px;pointer-events:none;
+  background:linear-gradient(180deg,transparent,rgba(15,143,128,.11),transparent);
+  animation:scan 4.4s var(--ease) infinite}
+@keyframes scan{0%{top:-64px}100%{top:100%}}
+.pv-bar{background:#eef3f8;padding:11px 15px;display:flex;align-items:center;
+  gap:7px;border-bottom:1px solid var(--line);position:relative}
+.pv-bar i{width:9px;height:9px;border-radius:50%;background:#ccd9e6;display:block}
+.pv-bar b{margin-left:9px;font-family:var(--mono);font-size:11.5px;
+  color:var(--muted);font-weight:500}
+.pv-tag{margin-left:auto;background:var(--amber-l);color:var(--amber);
+  padding:2.5px 9px;border-radius:4px;font-size:10px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.6px}
+.pv-body{padding:24px;position:relative}
+.pv-lab{font-family:var(--mono);font-size:11px;color:var(--muted);
+  text-transform:uppercase;letter-spacing:1.1px;margin-bottom:12px}
+.pv-hero{display:flex;align-items:baseline;gap:11px;padding-bottom:20px;
+  margin-bottom:20px;border-bottom:1px solid var(--line)}
+.pv-hero .amt{font-family:var(--display);font-size:46px;font-weight:700;
+  color:var(--teal);letter-spacing:-2.2px;line-height:1;
   font-variant-numeric:tabular-nums}
-.tbl-r.total{background:var(--teal-l)}
-.tbl-r.total .k{color:var(--ink);font-weight:700}
-.tbl-r.total .v{color:var(--teal-d);font-size:19px;font-weight:800}
+.pv-hero .lbl{font-size:13.5px;color:var(--muted);line-height:1.4}
+.pv-rows{display:grid;gap:2px}
+.pv-row{display:flex;align-items:center;justify-content:space-between;
+  gap:12px;padding:9px 11px;border-radius:6px;font-size:14px;
+  opacity:0;transform:translateX(-14px);
+  transition:opacity .55s var(--ease),transform .55s var(--ease),
+    background .2s}
+.pv-row.in{opacity:1;transform:none}
+.pv-row:hover{background:#f4f8fb}
+.pv-row .k{color:var(--body)}
+.pv-row .v{font-family:var(--mono);font-weight:500;color:var(--ink);
+  font-variant-numeric:tabular-nums;font-size:13.5px}
+.pv-row.tot{background:var(--teal-l)}
+.pv-row.tot .k{color:var(--ink);font-weight:600}
+.pv-row.tot .v{color:var(--teal-d);font-size:15px}
+.chip{display:inline-block;background:var(--teal-l);color:var(--teal-d);
+  padding:1.5px 7px;border-radius:3px;font-size:10.5px;font-weight:600;
+  font-family:var(--sans);margin-left:5px}
+.pv-foot{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);
+  font-size:12.5px;color:var(--muted);line-height:1.5;opacity:0;
+  transition:opacity .6s var(--ease)}
+.pv-foot.in{opacity:1}
 
-/* ---------- FLOW ---------- */
-.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.step{background:var(--white);border:1px solid var(--line);border-radius:10px;
-  padding:24px 20px;position:relative}
-.step .n{width:30px;height:30px;border-radius:50%;background:var(--teal);
-  color:#fff;font-weight:800;font-size:14px;display:flex;
-  align-items:center;justify-content:center;margin-bottom:14px}
-.step h4{font-size:16px;color:var(--ink);font-weight:700;margin-bottom:7px}
-.step p{font-size:15px;line-height:1.55;color:var(--muted)}
+/* ============ SECCIONES ============ */
+section{padding:88px 0;position:relative}
+section.alt{background:var(--bg)}
+h2{font-family:var(--display);font-size:37px;font-weight:700;
+  color:var(--ink);letter-spacing:-1.3px;line-height:1.13;margin-bottom:15px}
+.sub{font-size:18.5px;color:var(--muted);max-width:660px;line-height:1.6;
+  margin-bottom:44px}
+.kicker{font-family:var(--mono);font-size:12px;color:var(--teal);
+  text-transform:uppercase;letter-spacing:1.3px;margin-bottom:14px;
+  display:block}
 
-/* ---------- SAFETY ---------- */
-.safe{display:grid;grid-template-columns:1fr 1fr;gap:40px;
-  align-items:center}
-.files{display:grid;gap:11px}
-.file{display:flex;align-items:center;gap:14px;background:var(--white);
-  border:1px solid var(--line);border-radius:9px;padding:16px 18px}
-.file .fn{font-family:ui-monospace,monospace;font-size:14px;
-  color:var(--teal-d);font-weight:600;flex:0 0 auto}
-.file .fd{font-size:14.5px;color:var(--muted);line-height:1.4}
-.security{margin-top:24px;padding-top:22px;
-  border-top:1px solid var(--line);display:grid;gap:12px}
-.security div{display:flex;gap:11px;font-size:15.5px;color:var(--body);
+/* ---- 3 features sin icon-topper ---- */
+.feat{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:10px;
+  overflow:hidden}
+.f-card{background:#fff;padding:32px 28px;transition:background .28s}
+.f-card:hover{background:#f7fbfd}
+.f-card .num{font-family:var(--mono);font-size:11.5px;color:var(--teal);
+  letter-spacing:1px;margin-bottom:15px;display:block}
+.f-card h3{font-family:var(--display);font-size:19.5px;color:var(--ink);
+  font-weight:600;letter-spacing:-.4px;margin-bottom:11px;line-height:1.3}
+.f-card p{font-size:15.5px;line-height:1.62}
+.f-card code{background:var(--bg);padding:2px 6px;border-radius:3px;
+  font-family:var(--mono);font-size:13.5px;color:var(--ink)}
+
+/* ---- IMPACTO: sale del grid ---- */
+.impact{display:grid;grid-template-columns:.9fr 1.1fr;gap:46px;
+  align-items:center;margin-top:52px}
+.imp-left{background:var(--ink);color:#fff;border-radius:11px;padding:38px}
+.imp-left .amt{font-family:var(--display);font-size:58px;font-weight:700;
+  color:#5fdcc9;letter-spacing:-2.8px;line-height:1;margin:10px 0 8px;
+  font-variant-numeric:tabular-nums}
+.imp-left .cap{color:#a3b8d0;font-size:15px;margin-bottom:24px}
+.src{display:flex;justify-content:space-between;align-items:baseline;
+  gap:14px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.10)}
+.src .src-k{font-size:14.5px;color:#a3b8d0}
+.src .src-v{font-family:var(--mono);font-size:15px;color:#c2d3e6;
+  font-variant-numeric:tabular-nums}
+.src-tot{display:flex;justify-content:space-between;align-items:baseline;
+  gap:14px;padding:14px 0 18px;border-bottom:1px solid rgba(255,255,255,.16)}
+.src-tot .src-k{font-size:15.5px;color:#fff;font-weight:600;
+  font-family:var(--display)}
+.src-tot .src-v{font-family:var(--display);font-size:26px;font-weight:700;
+  color:#5fdcc9;letter-spacing:-1px;font-variant-numeric:tabular-nums}
+.imp-left ul{list-style:none;display:grid;gap:12px;
+  padding-top:22px;border-top:1px solid rgba(255,255,255,.13)}
+.imp-left li{display:flex;gap:12px;font-size:14.5px;color:#c2d3e6;
+  line-height:1.5}
+.imp-left li::before{content:'';width:5px;height:5px;border-radius:50%;
+  background:#5fdcc9;flex:0 0 5px;margin-top:9px}
+
+.tbl{border:1px solid var(--line);border-radius:11px;overflow:hidden;background:#fff}
+.tbl-h{background:var(--bg);padding:13px 20px;font-family:var(--mono);
+  font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;
+  letter-spacing:1.1px;border-bottom:1px solid var(--line)}
+.tbl-r{display:flex;justify-content:space-between;align-items:center;
+  gap:16px;padding:16px 20px;border-bottom:1px solid var(--line);
+  font-size:15.5px;transition:background .2s}
+.tbl-r:last-child{border-bottom:0}
+.tbl-r:hover{background:#f7fbfd}
+.tbl-r .k{color:var(--body)}
+.tbl-r .v{font-family:var(--mono);font-weight:500;color:var(--ink);
+  font-variant-numeric:tabular-nums;font-size:14.5px;white-space:nowrap}
+.tbl-r.tot{background:var(--teal-l);border-bottom:0}
+.tbl-r.tot .k{color:var(--ink);font-weight:600}
+.tbl-r.tot .v{color:var(--teal-d);font-size:17px;font-weight:600}
+.tbl-r.hair .k,.tbl-r.hair .v{font-size:14px;color:var(--muted)}
+.tbl-r.hair .v{color:var(--body)}
+
+/* ---- PIPELINE con barra que se llena ---- */
+.pipe{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);
+  border-radius:10px;overflow:hidden}
+.pipe-row{display:grid;grid-template-columns:52px 1fr auto;gap:20px;
+  align-items:center;padding:22px 26px;background:#fff;position:relative;
+  transition:background .28s}
+.pipe-row:hover{background:#f7fbfd}
+.pipe-n{font-family:var(--display);font-size:26px;font-weight:700;
+  color:var(--line);letter-spacing:-1px;transition:color .3s}
+.pipe-row:hover .pipe-n{color:var(--teal)}
+.pipe-row h4{font-family:var(--display);font-size:17.5px;color:var(--ink);
+  font-weight:600;margin-bottom:5px;letter-spacing:-.3px}
+.pipe-row p{font-size:15px;color:var(--muted);line-height:1.55}
+.pipe-t{font-family:var(--mono);font-size:11.5px;color:var(--muted);
+  white-space:nowrap;padding:5px 11px;background:var(--bg);
+  border-radius:4px;letter-spacing:.4px}
+.bar{height:3px;background:var(--line);position:relative;overflow:hidden}
+.bar i{position:absolute;inset:0;background:linear-gradient(90deg,
+  var(--teal),#5fdcc9);transform:scaleX(0);transform-origin:left;
+  transition:transform 1.5s var(--ease)}
+.bar.in i{transform:scaleX(1)}
+
+/* ---- SAFETY ---- */
+.safe{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+.checks{display:grid;gap:15px}
+.checks div{display:flex;gap:13px;font-size:15.5px;line-height:1.6;
   align-items:flex-start}
-.security div::before{content:'';width:17px;height:17px;border-radius:50%;
-  background:var(--teal-l);flex:0 0 17px;margin-top:3px}
+.checks div::before{content:'';width:19px;height:19px;border-radius:50%;
+  background:var(--teal-l);flex:0 0 19px;margin-top:3px;position:relative}
+.checks div::after{content:'';position:absolute;margin-left:5px;
+  margin-top:8px;width:5px;height:9px;border:solid var(--teal-d);
+  border-width:0 1.8px 1.8px 0;transform:rotate(43deg)}
+.checks div{position:relative}
+.files{display:grid;gap:10px}
+.file{display:flex;align-items:baseline;gap:16px;background:#fff;
+  border:1px solid var(--line);border-radius:9px;padding:17px 20px;
+  transition:border-color .25s,transform .25s var(--ease)}
+.file:hover{border-color:#a9ccc4;transform:translateX(5px)}
+.file .fn{font-family:var(--mono);font-size:14px;color:var(--teal-d);
+  font-weight:500;flex:0 0 auto}
+.file .fd{font-size:14.5px;color:var(--muted);line-height:1.45}
 
-/* ---------- FORM ---------- */
-.form-wrap{display:grid;grid-template-columns:1fr 1.15fr;gap:48px;
+/* ---- FORM ---- */
+.form-wrap{display:grid;grid-template-columns:1fr 1.12fr;gap:50px;
   align-items:start}
-form{background:var(--white);border:1px solid var(--line);
-  border-radius:13px;padding:32px;box-shadow:0 12px 34px rgba(11,21,38,.07)}
-.field{margin-bottom:17px}
+form{background:#fff;border:1px solid var(--line);border-radius:13px;
+  padding:34px}
+.field{margin-bottom:18px}
 label{display:block;font-size:13.5px;font-weight:600;color:var(--ink);
-  margin-bottom:7px}
+  margin-bottom:8px}
 label .opt{color:var(--muted);font-weight:400}
-input,select,textarea{width:100%;padding:13px 15px;border:1.5px solid var(--line);
-  border-radius:8px;font:inherit;font-size:16px;color:var(--ink);
-  background:var(--white);transition:border-color .15s,box-shadow .15s;
-  font-family:inherit}
-input:focus,select:focus,textarea:focus{outline:none;
-  border-color:var(--teal);box-shadow:0 0 0 3px rgba(14,138,125,.13)}
-textarea{resize:vertical;min-height:96px}
+input,select,textarea{width:100%;padding:14px 16px;border:1.5px solid var(--line);
+  border-radius:8px;font:inherit;font-size:16px;color:var(--ink);background:#fff;
+  transition:border-color .2s,box-shadow .2s;font-family:var(--sans)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--teal);
+  box-shadow:0 0 0 3.5px rgba(15,143,128,.12)}
+textarea{resize:vertical;min-height:104px}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.micro{font-size:14px;color:var(--muted);line-height:1.5;margin-top:13px}
-.perks{display:grid;gap:16px;margin-top:26px}
-.perk{display:flex;gap:13px;align-items:flex-start}
-.perk .ck{width:21px;height:21px;border-radius:50%;background:var(--teal);
-  flex:0 0 21px;display:flex;align-items:center;justify-content:center;
-  margin-top:2px}
-.perk .ck svg{width:11px;height:11px;stroke:#fff;fill:none;stroke-width:3;
-  stroke-linecap:round;stroke-linejoin:round}
-.perk b{display:block;color:var(--ink);font-size:15.5px;margin-bottom:3px}
-.perk p{font-size:14px;color:var(--muted);line-height:1.5}
+.micro{font-size:14px;color:var(--muted);line-height:1.55;margin-top:14px}
+.perks{display:grid;gap:18px;margin-top:30px}
+.perk{display:flex;gap:14px;align-items:flex-start}
+.perk .ck{width:22px;height:22px;border-radius:50%;background:var(--teal);
+  flex:0 0 22px;display:flex;align-items:center;justify-content:center;
+  margin-top:2px;position:relative}
+.perk .ck::after{content:'';position:absolute;width:5px;height:9px;
+  border:solid #fff;border-width:0 1.8px 1.8px 0;transform:rotate(43deg) translate(-1px,-1px)}
+.perk b{display:block;color:var(--ink);font-size:16px;font-weight:600;
+  margin-bottom:4px;font-family:var(--display);letter-spacing:-.2px}
+.perk p{font-size:14.5px;color:var(--muted);line-height:1.55}
 
-/* ---------- FAQ ---------- */
-.faq{max-width:760px}
-.faq details{border:1px solid var(--line);border-radius:9px;
-  padding:20px 22px;margin-bottom:12px;background:var(--white)}
-.faq summary{cursor:pointer;font-weight:600;color:var(--ink);font-size:16.5px;
-  list-style:none;display:flex;justify-content:space-between;gap:16px;
-  align-items:center}
+/* ---- FAQ ---- */
+.faq{max-width:780px}
+.faq details{border-bottom:1px solid var(--line);padding:22px 0}
+.faq summary{cursor:pointer;font-family:var(--display);font-size:17.5px;
+  font-weight:600;color:var(--ink);list-style:none;display:flex;
+  justify-content:space-between;gap:18px;align-items:center;
+  transition:color .22s}
 .faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:'+';color:var(--teal);font-size:23px;
-  font-weight:400;line-height:1;flex:0 0 auto}
-.faq details[open] summary::after{content:'−'}
-.faq p{margin-top:14px;font-size:16.5px;line-height:1.65;color:var(--body)}
-.faq code{background:var(--bg);padding:2px 7px;border-radius:4px;
-  font-family:ui-monospace,monospace;font-size:14px;color:var(--ink)}
+.faq summary:hover{color:var(--teal-d)}
+.faq summary .pm{width:26px;height:26px;border:1.5px solid var(--line);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  flex:0 0 26px;position:relative;transition:transform .32s var(--ease),
+  border-color .22s}
+.faq summary .pm::before,.faq summary .pm::after{content:'';position:absolute;
+  background:var(--ink);transition:transform .32s var(--ease),opacity .22s}
+.faq summary .pm::before{width:11px;height:1.6px}
+.faq summary .pm::after{width:1.6px;height:11px}
+.faq details[open] summary .pm{border-color:var(--teal);transform:rotate(180deg)}
+.faq details[open] summary .pm::after{transform:scaleY(0);opacity:0}
+.faq details[open] summary .pm::before{background:var(--teal-d)}
+.faq p{margin-top:16px;font-size:16px;line-height:1.68;color:var(--body);
+  max-width:700px}
+.faq code{background:var(--bg);padding:2px 7px;border-radius:3px;
+  font-family:var(--mono);font-size:14px;color:var(--ink)}
 
-/* ---------- CTA FINAL ---------- */
-.final{background:var(--ink);color:#fff;text-align:center;padding:76px 0}
-.final h2{color:#fff;margin-bottom:14px}
-.final p{color:#a9bdd4;font-size:18.5px;max-width:600px;margin:0 auto 30px}
-.final .btn{background:#5ee0d0;color:var(--ink);font-weight:700}
-.final .btn:hover{background:#4fd4c2}
-footer{background:#070f1c;color:#6d8299;padding:34px 0;font-size:14px}
+/* ---- CTA FINAL ---- */
+.final{background:var(--ink);color:#fff;text-align:center;padding:88px 0;
+  position:relative;overflow:hidden}
+.final .glow{opacity:.6}
+.final h2{color:#fff;margin-bottom:16px}
+.final p{color:#a3b8d0;font-size:19px;max-width:600px;margin:0 auto 32px}
+.final .btn{background:#5fdcc9;color:var(--ink);font-weight:600}
+.final .btn:hover{background:#4fd0bc}
+footer{background:#060d19;color:#6b7f9b;padding:36px 0;font-size:14px}
 footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px}
-footer b{color:#c3d4e6}
+footer b{color:#c2d3e6;font-weight:500}
 
-@media(max-width:1000px){
-  .hero,.result,.safe,.form-wrap{grid-template-columns:1fr}
+/* ============ RESPONSIVE ============ */
+@media(max-width:1040px){
+  .hero,.impact,.safe,.form-wrap{grid-template-columns:1fr}
   .feat{grid-template-columns:1fr}
-  .flow{grid-template-columns:repeat(2,1fr)}
-  h1{font-size:40px}
-  h2{font-size:29px}
+  .nav-r .hide-m{display:none}
+  h1{font-size:44px;letter-spacing:-1.6px}
+  .imp-left .amt{font-size:48px}
 }
-@media(max-width:620px){
-  .flow{grid-template-columns:1fr}
-  .row2{grid-template-columns:1fr}
-  h1{font-size:33px}
+@media(max-width:640px){
   .wrap{padding:0 20px}
-  section{padding:56px 0}
+  section{padding:60px 0}
+  h1{font-size:33px;letter-spacing:-1.1px}
+  h2{font-size:28px}
+  .row2{grid-template-columns:1fr}
+  .pipe-row{grid-template-columns:44px 1fr;gap:14px}
+  .pipe-t{grid-column:2;justify-self:start;margin-top:6px}
+  .trust{gap:14px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .rv{opacity:1;transform:none}
+  h1 .ln>span{transform:none}
+  .pv-row{opacity:1;transform:none}
+  .lede,.cta-row,.trust,.preview,.pv-foot{opacity:1}
+  html{scroll-behavior:auto}
 }
 </style></head><body>
 
 <nav><div class="wrap">
-  <div class="brand"><span class="dot"></span>CRM Cleanup</div>
-  <a class="cta" href="#audit">Get my free audit</a>
+  <a class="brand" href="#top"><span class="dot"></span>CRM Cleanup</a>
+  <div class="nav-r">
+    <a href="#sample" class="hide-m">Sample report</a>
+    <a href="#how" class="hide-m">How it works</a>
+    <a href="#safety" class="hide-m">Safety</a>
+    <a href="#audit" class="cta">Get my free audit</a>
+  </div>
 </div></nav>
 
-<header><div class="wrap hero">
-  <div>
-    <div class="eyebrow">CRM data quality audit</div>
-    <h1>Your CRM has a number.<br>Find out what <em>it costs</em> you.</h1>
-    <p class="lede">Duplicate contacts, empty fields, and leads nobody
-    followed up on. I find them in your export and price them in your
-    currency &mdash; so the fix gets approved.</p>
-    <div class="cta-row">
-      <a class="btn" href="#audit">Get my free audit</a>
-      <a class="btn ghost" href="#sample">View a sample report</a>
-    </div>
-    <div class="trust">
-      <span>Your live CRM is never connected</span>
-      <span>Nothing deleted without approval</span>
-      <span>Report in 48h</span>
-    </div>
-  </div>
+<header id="top"><div class="glow a"></div><div class="glow b"></div>
+  <div class="grid-bg"></div>
+  <div class="wrap hero">
 
-  <div class="preview" id="sample">
-    <div class="pv-bar">
-      <i></i><i></i><i></i>
-      <b>crm-audit-summary.json</b><span class="pv-sample">sample</span>
+    <div>
+      <div class="eyebrow">CRM data quality audit</div>
+      <h1>
+        <span class="ln"><span>Your CRM has</span></span>
+        <span class="ln"><span>a number. Find</span></span>
+        <span class="ln"><span>what <em>it costs</em> you.</span></span>
+      </h1>
+      <p class="lede">Duplicate contacts, empty fields, and leads nobody
+      followed up on. I find them in your export and price them in your
+      currency &mdash; so the fix gets approved.</p>
+      <div class="cta-row">
+        <a class="btn" href="#audit">Get my free audit <span class="arw">&rarr;</span></a>
+        <a class="btn ghost" href="#sample">See a sample report</a>
+      </div>
+      <div class="trust">
+        <span>Live CRM never connected</span>
+        <span>Nothing deleted without approval</span>
+        <span>Report in 48h</span>
+      </div>
     </div>
-    <div class="pv-body">
-      <div class="pv-title">Annual cost of your data quality</div>
-      <div class="pv-big">
-        <div class="amt">$15,657</div>
-        <div class="lbl">recoverable per year<br>from your export</div>
+
+    <div class="preview" id="sample">
+      <div class="scan"></div>
+      <div class="pv-bar">
+        <i></i><i></i><i></i>
+        <b>crm-audit-summary.json</b>
+        <span class="pv-tag">sample</span>
       </div>
-      <div class="pv-rows">
-        <div class="pv-row"><span class="k">Rep hours on dedupe &amp; lookups</span>
-          <span class="v">$12,157</span></div>
-        <div class="pv-row"><span class="k">Revenue from forgotten leads</span>
-          <span class="v">$3,500</span></div>
-        <div class="pv-row"><span class="k">Bounced sends &amp; domain reputation</span>
-          <span class="v">$0</span></div>
-        <div class="pv-row"><span class="k">Duplicates resolved</span>
-          <span class="v">119 <span class="pv-chip">23.8%</span></span></div>
-        <div class="pv-row"><span class="k">Empty fields recovered</span>
-          <span class="v">92</span></div>
-        <div class="pv-row"><span class="k">Stale records flagged</span>
-          <span class="v">300</span></div>
+      <div class="pv-body">
+        <div class="pv-lab">Estimated annual cost of your data quality</div>
+        <div class="pv-hero">
+          <div class="amt" data-count="15657" data-prefix="$">$0</div>
+          <div class="lbl">recoverable per year<br>from your own export</div>
+        </div>
+        <div class="pv-rows">
+          <div class="pv-row tot"><span class="k">Rep hours on dedupe &amp; lookups</span>
+            <span class="v" data-count="12157" data-prefix="$">$0</span></div>
+          <div class="pv-row tot"><span class="k">Revenue from forgotten leads</span>
+            <span class="v" data-count="3500" data-prefix="$">$0</span></div>
+          <div class="pv-row"><span class="k">Bounced sends &amp; domain reputation</span>
+            <span class="v">$0</span></div>
+          <div class="pv-row hair"><span class="k">Duplicates resolved</span>
+            <span class="v"><span data-count="119">0</span> <span class="chip">23.8%</span></span></div>
+          <div class="pv-row hair"><span class="k">Empty fields recovered</span>
+            <span class="v" data-count="92">0</span></div>
+          <div class="pv-row hair"><span class="k">Stale records flagged</span>
+            <span class="v" data-count="300">0</span></div>
+        </div>
+        <div class="pv-foot">Every assumption ships in the report. If your
+        cost per rep differs, I recalculate.</div>
       </div>
-      <div class="pv-note">Every assumption ships in the report. If your
-      cost per rep differs, I recalculate.</div>
     </div>
   </div>
-</div></header>
+</header>
 
 <section><div class="wrap">
-  <h2>What you actually get</h2>
-  <p class="sub">A report on your own data from an engine built for exactly
-  this. Not a checklist, not a template.</p>
+  <span class="kicker rv">What you get</span>
+  <h2 class="rv">A report on your own data,<br>not a checklist.</h2>
+  <p class="sub rv">Produced by an engine built for exactly this problem.
+  It reads your export, resolves entities, and prices the damage in
+  your currency.</p>
 
-  <div class="feat">
+  <div class="feat rv">
     <div class="f-card">
-      <div class="f-ico"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-      <h3>Duplicate records resolved by entity, not by string</h3>
+      <span class="num">01 / RESOLUTION</span>
+      <h3>Duplicates resolved by entity, not by string</h3>
       <p><code>"John Smith"</code>, <code>"J. Smith"</code> and
       <code>"Jon Smyth"</code> at one company resolve to a single person.
-      Exact-match dedupe catches none of them &mdash; on a 500-record sample
-      it caught 117 of 119.</p>
+      Exact-match dedupe caught 117 of 119; the fuzzy pass caught the 2 that
+      cause real double-follow-up.</p>
     </div>
-
     <div class="f-card">
-      <div class="f-ico"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <span class="num">02 / RECOVERY</span>
       <h3>Empty fields recovered, not lost</h3>
-      <p>When a duplicate holds a value the other one is missing, that value
-      is recovered. 92 blanks filled on the sample run. Merging without this
-      step quietly destroys data.</p>
+      <p>When a duplicate holds a value the other one is missing, that
+      value is recovered. 92 blanks filled on the sample run. Merging
+      without this step quietly destroys data &mdash; and clients notice.</p>
     </div>
-
     <div class="f-card">
-      <div class="f-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+      <span class="num">03 / STALENESS</span>
       <h3>Forgotten leads, separated from dead ones</h3>
-      <p>Contacts with no activity in 90+ days, split from records that were
-      already closed or never viable. That distinction is the difference
-      between a list you can work and one you delete.</p>
-    </div>
-
-    <div class="f-card">
-      <div class="f-ico"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-      <h3>The economic number</h3>
-      <p>Wasted rep hours, unworked leads and bounce cost, priced from
-      <em>your</em> cost per rep. This is the number that gets budget
-      approved &mdash; not "you have 119 duplicates."</p>
+      <p>Contacts with no activity in 90+ days, split from records already
+      closed or never viable. That distinction is the difference between a
+      list you can work and one you delete.</p>
     </div>
   </div>
-</div></section>
 
-<section class="alt"><div class="wrap">
-  <h2>What a real run looks like</h2>
-  <p class="sub">500 records from a CRM that hadn't been governed for a few
-  years. These are its numbers, not an industry average.</p>
-
-  <div class="result">
-    <div class="res-head">
-      <div class="pv-title" style="color:#7f9ab8">Annual impact</div>
-      <div class="amt">$15,657</div>
-      <p class="sub">estimated annual cost of poor data quality</p>
+  <!-- el impacto sale del grid: ES el argumento, no una feature -->
+  <div class="impact-head rv" style="margin-top:60px">
+    <span class="kicker">Economic impact</span>
+    <h3 style="font-family:var(--display);font-size:25px;color:var(--ink);font-weight:600;letter-spacing:-.7px">What the report is actually pricing</h3>
+  </div>
+  <div class="impact">
+    <div class="imp-left rv">
+      <span class="kicker" style="color:#5fdcc9">How the number is built</span>
+      <div class="src"><span class="src-k">Rep time</span>
+        <span class="src-v" data-count="12157" data-prefix="$">$0</span></div>
+      <div class="src"><span class="src-k">Forgotten leads</span>
+        <span class="src-v" data-count="3500" data-prefix="$">$0</span></div>
+      <div class="src"><span class="src-k">Bounce cost</span>
+        <span class="src-v">$0</span></div>
+      <div class="src-tot"><span class="src-k">Estimated annual cost</span>
+        <span class="src-v">$15,657</span></div>
       <ul>
         <li>68 hours of rep time on dedupe and manual lookups</li>
         <li>7 forgotten leads that reactivate with follow-up</li>
         <li>39 records flagged with impossible future dates</li>
-        <li>32 borderline pairs held for manual review</li>
+        <li>32 borderline pairs held for manual review, not merged</li>
       </ul>
     </div>
-
-    <div class="tbl">
-      <div class="tbl-h">Cost breakdown</div>
-      <div class="tbl-r"><span class="k">Rep time on dedupe &amp; lookups</span>
-        <span class="v">$12,157</span></div>
-      <div class="tbl-r"><span class="k">Revenue from forgotten leads</span>
-        <span class="v">$3,500</span></div>
-      <div class="tbl-r"><span class="k">Bounced sends &amp; reputation</span>
-        <span class="v">$0</span></div>
-      <div class="tbl-r total"><span class="k">Total annual cost</span>
-        <span class="v">$15,657</span></div>
-      <div class="tbl-r"><span class="k">Duplicates resolved</span>
-        <span class="v">119 <span class="pv-chip">23.8% of records</span></span></div>
-      <div class="tbl-r"><span class="k">Fields recovered</span>
-        <span class="v">92</span></div>
+    <div>
+      <div class="tbl rv rv-d1">
+        <div class="tbl-h">Cost breakdown &middot; 500-record export</div>
+        <div class="tbl-r"><span class="k">Rep time on dedupe &amp; lookups</span>
+          <span class="v">$12,157</span></div>
+        <div class="tbl-r"><span class="k">Revenue from forgotten leads</span>
+          <span class="v">$3,500</span></div>
+        <div class="tbl-r"><span class="k">Bounced sends &amp; reputation</span>
+          <span class="v">$0</span></div>
+        <div class="tbl-r tot"><span class="k">Total annual cost</span>
+          <span class="v">$15,657</span></div>
+        <div class="tbl-r hair"><span class="k">Records after cleanup</span>
+          <span class="v">381</span></div>
+        <div class="tbl-r hair"><span class="k">Duplicates resolved</span>
+          <span class="v">119</span></div>
+      </div>
+      <p class="sub rv rv-d2" style="margin-top:22px;font-size:16px">
+      Prices come from this model, not a package sheet. If your CRM is in
+      better shape, the price is lower.</p>
     </div>
   </div>
 </div></section>
 
-<section><div class="wrap">
-  <h2>How it works</h2>
-  <p class="sub">Four steps. The report is yours whether or not you buy
-  anything.</p>
-  <div class="flow">
-    <div class="step"><div class="n">1</div>
-      <h4>Export your CRM</h4>
-      <p>CSV from HubSpot, Salesforce, Pipedrive, Zoho or Dynamics.
-      Column names in English or Spanish are detected automatically.</p></div>
-    <div class="step"><div class="n">2</div>
-      <h4>Request the audit</h4>
-      <p>Reply to my email with the file. I run the analysis on that copy
-      &mdash; never on your live system.</p></div>
-    <div class="step"><div class="n">3</div>
-      <h4>Get the report</h4>
-      <p>Duplicates, stale records, malformed fields, and what it costs.
-      With the merge plan and the economic model.</p></div>
-    <div class="step"><div class="n">4</div>
-      <h4>Decide</h4>
-      <p>Want the cleanup, we run it as a fixed-price sprint. Don't, keep
-      the report and owe nothing.</p></div>
+<section class="alt" id="how"><div class="wrap">
+  <span class="kicker rv">Process</span>
+  <h2 class="rv">Four steps. The report is yours<br>either way.</h2>
+  <p class="sub rv">No connection to your live CRM at any point. The file
+  you send is the only thing I ever touch.</p>
+
+  <div class="pipe rv">
+    <div class="pipe-row">
+      <div class="pipe-n">01</div>
+      <div><h4>Export your CRM</h4>
+        <p>CSV from HubSpot, Salesforce, Pipedrive, Zoho or Dynamics.
+        Column names in English or Spanish are detected automatically.</p></div>
+      <div class="pipe-t">you: 2 min</div>
+    </div>
+    <div class="pipe-row">
+      <div class="pipe-n">02</div>
+      <div><h4>I run the audit on the copy</h4>
+        <p>Entity resolution, normalization, staleness and the economic
+        model. Your live system is never connected.</p></div>
+      <div class="pipe-t">engine: &lt;1 min</div>
+    </div>
+    <div class="pipe-row">
+      <div class="pipe-n">03</div>
+      <div><h4>You get the report</h4>
+        <p>Duplicates, stale records, malformed fields, what it costs, and
+        the merge plan with every justification.</p></div>
+      <div class="pipe-t">within 48h</div>
+    </div>
+    <div class="pipe-row">
+      <div class="pipe-n">04</div>
+      <div><h4>You decide</h4>
+        <p>Want the cleanup, it runs as a fixed-price sprint. Don't, keep
+        the report and owe nothing.</p></div>
+      <div class="pipe-t">no obligation</div>
+    </div>
   </div>
+  <div class="bar rv rv-d2"><i></i></div>
 </div></section>
 
-<section class="alt"><div class="wrap safe">
-  <div>
-    <h2>Nothing changes without your approval</h2>
+<section id="safety"><div class="wrap safe">
+  <div class="rv">
+    <span class="kicker">Safety</span>
+    <h2>Nothing changes without<br>your approval.</h2>
     <p class="sub">A cleanup tool that edits records before showing you is a
     liability. This one produces a proposal.</p>
-    <div class="security">
-      <div>Your live CRM is never connected. I only ever see the export you
-      send.</div>
+    <div class="checks">
+      <div>Your live CRM is never connected. I only see the export you send.</div>
       <div>The file is used for your audit and deleted on request.</div>
       <div>Borderline matches (78&ndash;87% similarity) go to a manual review
       list instead of merging automatically.</div>
-      <div>A shared office phone is not treated as proof two records are the
-      same person &mdash; phone-only matching deleted a real customer during
+      <div>A shared office phone is not treated as proof that two records are
+      the same person. Phone-only matching deleted a real customer during
       testing.</div>
     </div>
   </div>
-  <div class="files">
+  <div class="files rv rv-d2">
     <div class="file"><span class="fn">before.csv</span>
       <span class="fd">Your original export, untouched</span></div>
     <div class="file"><span class="fn">after.csv</span>
       <span class="fd">The proposed clean version</span></div>
     <div class="file"><span class="fn">merge_plan.json</span>
-      <span class="fd">Every merge with the score that justified it and
-      which record survives</span></div>
+      <span class="fd">Every merge with the score that justified it and which
+      record survives</span></div>
     <div class="file"><span class="fn">summary.json</span>
       <span class="fd">Before/after metrics and the economic model</span></div>
   </div>
 </div></section>
 
-<section id="audit"><div class="wrap form-wrap">
-  <div>
-    <h2>Get your free audit</h2>
-    <p class="sub">Tell me about the problem. I reply within 24 hours with a
-  link for your export.</p>
+<section class="alt" id="audit"><div class="wrap form-wrap">
+  <div class="rv">
+    <span class="kicker">Free audit</span>
+    <h2>Find the number first.</h2>
+    <p class="sub">Tell me what's wrong. I reply within 24 hours with a link
+    for your export.</p>
     <div class="perks">
-      <div class="perk"><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
+      <div class="perk"><span class="ck"></span>
         <div><b>Free, no obligation</b>
         <p>The report is yours to keep, with or without a paid cleanup.</p></div></div>
-      <div class="perk"><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
+      <div class="perk"><span class="ck"></span>
         <div><b>Turnaround</b>
-        <p>I reply within 24h; the report lands within 48h of receiving your export.</p></div></div>
-      <div class="perk"><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <p>I reply within 24h; the report lands within 48h of your export.</p></div></div>
+      <div class="perk"><span class="ck"></span>
         <div><b>No sales call unless you ask</b>
         <p>You get the report first. If you want to talk, you ask.</p></div></div>
-      <div class="perk"><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
+      <div class="perk"><span class="ck"></span>
         <div><b>White-label available</b>
         <p>Agencies: I work under your brand and you keep the margin.</p></div></div>
     </div>
   </div>
 
-  <form id="leadform" novalidate>
+  <form id="leadform" novalidate class="rv rv-d2">
     <div class="field">
       <label for="n">Name</label>
       <input type="text" id="n" name="nombre" required autocomplete="name">
@@ -480,90 +627,171 @@ footer b{color:#c3d4e6}
           <option>1,000 &ndash; 10,000</option>
           <option>10,000 &ndash; 50,000</option><option>Over 50,000</option>
         </select>
-      </div>
     </div>
     <div class="field">
       <label for="m">What's the problem? <span class="opt">(optional)</span></label>
       <textarea id="m" name="notas" rows="4"
         placeholder="e.g. 40k records and reporting is wrong. Or: we migrated from Salesforce in 2024 and the numbers never added up. Or: reps keep emailing the same leads twice."></textarea>
     </div>
-    <button class="btn" type="submit" style="width:100%">Get my free audit</button>
-    <p class="micro">I'll reply with a link to send your export. Your CRM
-    data is never shared, sold, or used to contact your contacts.</p>
+    <button class="btn" type="submit" style="width:100%;justify-content:center">
+      Get my free audit <span class="arw">&rarr;</span></button>
+    <p class="micro">I'll reply with a link to send your export. Your CRM data
+    is never shared, sold, or used to contact your contacts.</p>
   </form>
 </div></section>
 
-<section class="alt"><div class="wrap">
-  <h2>Questions</h2>
-  <div class="faq" style="margin-top:28px">
+<section><div class="wrap">
+  <span class="kicker rv">FAQ</span>
+  <h2 class="rv">Questions</h2>
+  <div class="faq rv rv-d1" style="margin-top:32px">
     <details><summary>Is my data safe?</summary>
-    <p>I never connect to your live CRM. You send a CSV export and I work
-    on that file. It's used for your audit and deleted on request. I'd
-    rather lose the data than your trust &mdash; that's the whole basis of
-    this service.</p></details>
+      <p>I never connect to your live CRM. You send a CSV export and I work
+      on that file. It's used for your audit and deleted on request. I'd
+      rather lose the data than your trust &mdash; that's the whole basis of
+      this service.</p></details>
     <details><summary>What if my CSV has messy column names?</summary>
-    <p>That's normal and it's handled. <code>Email</code>,
-    <code>Correo</code>, <code>work_email</code> and
-    <code>E-mail Address</code> all map to the same field, as do phone,
-    company and last-activity date in English or Spanish.</p></details>
+      <p>That's normal and it's handled. <code>Email</code>,
+      <code>Correo</code>, <code>work_email</code> and
+      <code>E-mail Address</code> all map to the same field, as do phone,
+      company and last-activity date in English or Spanish.</p></details>
     <details><summary>How is 23.8% duplicates a real number?</summary>
-    <p>From the 500-record export shown above. 117 duplicates were exact
-    matches on email or phone; 2 were fuzzy matches on name plus company.
-    Those 2 are the interesting ones &mdash; a spreadsheet never catches
-    them, and they're usually the records causing double-follow-up.</p></details>
+      <p>From the 500-record export shown above. 117 duplicates were exact
+      matches on email or phone; 2 were fuzzy matches on name plus company.
+      Those 2 are the interesting ones &mdash; a spreadsheet never catches
+      them, and they're usually what causes double-follow-up.</p></details>
     <details><summary>Why won't it just delete the duplicates?</summary>
-    <p>Because a shared office line or a reassigned mobile isn't proof that
-    two records are the same person. Phone-only matching merged two
-    different customers during testing. It now needs two independent
-    signals before merging anything, and everything lands in a review plan
-    first.</p></details>
+      <p>Because a shared office line or a reassigned mobile isn't proof that
+      two records are the same person. Phone-only matching merged two
+      different customers during testing. It now needs two independent
+      signals before merging anything, and everything lands in a review plan
+      first.</p></details>
     <details><summary>What does the cleanup cost?</summary>
-    <p>Audit and plan: $3,000. Full cleanup: $12,000. Ongoing monthly
-    hygiene: $5,000/mo. Those come from the economic model on your data,
-    not a package sheet &mdash; if your CRM is in better shape, the price
-    is lower.</p></details>
+      <p>Audit and plan: $3,000. Full cleanup: $12,000. Ongoing monthly
+      hygiene: $5,000/mo. Those come from the economic model on your data,
+      not a package sheet &mdash; if your CRM is in better shape, the price
+      is lower.</p></details>
     <details><summary>I'm an agency. Can I resell this?</summary>
-    <p>Yes &mdash; white-label, fixed price per sprint, you keep the
-    margin and I work under your brand. I already delivered the $15,657
-    report format to two HubSpot partners.</p></details>
+      <p>Yes &mdash; white-label, fixed price per sprint, you keep the margin
+      and I work under your brand. The delivery is four files and a report;
+      there's no tooling for your team to learn.</p></details>
   </div>
 </div></section>
 
-<section class="final"><div class="wrap">
-  <h2>Find the number first</h2>
-  <p>Once you see what the data costs per year, the decision isn't
-  whether to fix it &mdash; it's who does it.</p>
-  <a class="btn" href="#audit">Get my free audit</a>
-</div></section>
+<section class="final"><div class="glow a"></div>
+  <div class="wrap" style="position:relative;z-index:2">
+    <h2 class="rv">Find the number first</h2>
+    <p class="rv rv-d1">Once you see what the data costs per year, the
+    decision isn't whether to fix it. It's who does it.</p>
+    <a class="btn rv rv-d2" href="#audit">Get my free audit <span class="arw">&rarr;</span></a>
+  </div>
+</section>
 
 <footer><div class="wrap">
   <div><b>CRM Cleanup</b> &middot; Cesar Rosales &middot;
     proposals@outreach.cesarbuilds.com</div>
-  <div>Entity resolution, deduplication, and the business case for
-    fixing it.</div>
+  <div>Entity resolution, deduplication, and the business case for fixing it.</div>
 </div></footer>
 
 <script>
-document.getElementById('leadform').addEventListener('submit', function(e){
-  e.preventDefault();
-  var g=function(id){return (document.getElementById(id)||{}).value||'';};
-  var cuerpo=
-    "Name: "+g('n')+"\n"+
-    "Email: "+g('e')+"\n"+
-    "CRM: "+g('c')+"\n"+
-    "Records: "+g('r')+"\n"+
-    "Problem: "+g('m')+"\n\n"+
-    "---\nPlease send me my free CRM data quality audit. I'll reply with a link to upload my export.";
-  window.location.href="mailto:proposals@outreach.cesarbuilds.com"+
-    "?subject="+encodeURIComponent("Free CRM audit - "+g('n'))+
-    "&body="+encodeURIComponent(cuerpo);
-  var ok=document.createElement('div');
-  ok.style.cssText="background:#e6f5f2;border:1px solid #9fd3cb;color:#0a6a60;padding:16px;border-radius:8px;font-weight:600;margin-top:18px";
-  ok.textContent="Your email app should have opened. If not, write to proposals@outreach.cesarbuilds.com";
-  this.appendChild(ok);
-  this.querySelectorAll('input,select,textarea,button')
-    .forEach(function(x){x.disabled=true;x.style.opacity='.5';});
-});
+(function(){
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- reveal on scroll ---- */
+  var rv = document.querySelectorAll('.rv');
+  if(reduced || !('IntersectionObserver' in window)){
+    rv.forEach(function(e){e.classList.add('in');});
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          en.target.classList.add('in');
+          io.unobserve(en.target);
+        }
+      });
+    },{threshold:.14,rootMargin:'0px 0px -60px 0px'});
+    rv.forEach(function(e){io.observe(e);});
+  }
+
+  /* ---- contador animado ---- */
+  function fmt(n){return n.toLocaleString('en-US');}
+  function countUp(el){
+    var target = parseInt(el.getAttribute('data-count'),10);
+    var prefix = el.getAttribute('data-prefix')||'';
+    if(reduced){el.textContent = prefix+fmt(target);return;}
+    var dur = 1500, t0 = null;
+    function step(ts){
+      if(!t0)t0=ts;
+      var p = Math.min((ts-t0)/dur,1);
+      var eased = 1-Math.pow(1-p,3);
+      el.textContent = prefix+fmt(Math.round(target*eased));
+      if(p<1) requestAnimationFrame(step);
+      else el.textContent = prefix+fmt(target);
+    }
+    requestAnimationFrame(step);
+  }
+  var counters = document.querySelectorAll('[data-count]');
+  if('IntersectionObserver' in window){
+    var io2 = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){countUp(en.target);io2.unobserve(en.target);}
+      });
+    },{threshold:.5});
+    counters.forEach(function(e){io2.observe(e);});
+  } else {
+    counters.forEach(countUp);
+  }
+
+  /* ---- filas del reporte: entran como un scan ---- */
+  var rows = document.querySelectorAll('.pv-row');
+  var foot = document.querySelector('.pv-foot');
+  if(rows.length){
+    if(reduced || !('IntersectionObserver' in window)){
+      rows.forEach(function(r){r.classList.add('in');});
+      if(foot)foot.classList.add('in');
+    } else {
+      var io3 = new IntersectionObserver(function(entries){
+        if(entries[0].isIntersecting){
+          rows.forEach(function(r,i){
+            setTimeout(function(){r.classList.add('in');}, 380+i*130);
+          });
+          if(foot) setTimeout(function(){foot.classList.add('in');},
+                               380+rows.length*130);
+          io3.disconnect();
+        }
+      },{threshold:.35});
+      io3.observe(rows[0]);
+    }
+  }
+
+  /* ---- barra del pipeline ---- */
+  var bar = document.querySelector('.bar');
+  if(bar){
+    var io4 = new IntersectionObserver(function(entries){
+      if(entries[0].isIntersecting){bar.classList.add('in');io4.disconnect();}
+    },{threshold:.3});
+    io4.observe(bar);
+  }
+
+  /* ---- form: mailto ---- */
+  var f = document.getElementById('leadform');
+  if(f) f.addEventListener('submit', function(e){
+    e.preventDefault();
+    var g=function(id){return (document.getElementById(id)||{}).value||'';};
+    var cuerpo =
+      'Name: '+g('n')+'\nEmail: '+g('e')+'\nCRM: '+g('c')+'\n'+
+      'Records: '+g('r')+'\nProblem: '+g('m')+'\n\n---\n'+
+      'Please send me my free CRM data quality audit. I will reply with a link to upload my export.';
+    window.location.href='mailto:proposals@outreach.cesarbuilds.com'+
+      '?subject='+encodeURIComponent('Free CRM audit - '+g('n'))+
+      '&body='+encodeURIComponent(cuerpo);
+    var ok=document.createElement('div');
+    ok.style.cssText='background:#e4f4f1;border:1px solid #9fd3cb;color:#0a6a5e;padding:16px;border-radius:8px;font-weight:600;margin-top:20px;font-family:inherit';
+    ok.textContent='Your email app should have opened. If not, write to proposals@outreach.cesarbuilds.com';
+    this.appendChild(ok);
+    this.querySelectorAll('input,select,textarea,button')
+      .forEach(function(x){x.disabled=true;x.style.opacity='.5';});
+  });
+})();
 </script>
 
 </body></html>
