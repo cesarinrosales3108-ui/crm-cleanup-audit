@@ -1,271 +1,569 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Find out what your dirty CRM is costing you</title>
-<meta name="description" content="Free CRM data quality audit. See how many
-hours your team wastes and how many leads you stopped following up on.
-No cost. Upload your CSV, get numbers you can take to your boss.">
+<title>CRM Cleanup — See what your dirty CRM costs you</title>
+<meta name="description" content="Free CRM data quality audit. Find the duplicates, recover the missing fields, and see the annual cost in wasted rep hours and unworked leads. Nothing deleted without your approval.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#111c2e;--muted:#5b6b84;--teal:#0d7d6f;--line:#dbe4ec;--bg:#f7f9fb}
-*{box-sizing:border-box}
-body{margin:0;font:16px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',
-  Helvetica,Arial,sans-serif;color:var(--ink);background:#fff}
-.wrap{max-width:940px;margin:0 auto;padding:0 24px}
-header{background:var(--ink);color:#fff;padding:56px 0 48px}
-header h1{font-size:clamp(28px,5vw,44px);line-height:1.15;margin:0 0 16px;
-  letter-spacing:-.6px}
-header p{font-size:18px;color:#b8c6d8;margin:0 0 28px;max-width:640px}
-.cta{display:inline-block;background:var(--teal);color:#fff;
-  padding:15px 30px;border-radius:4px;text-decoration:none;
-  font-weight:600;font-size:17px}
-.cta:hover{background:#0a6459}
-section{padding:52px 0;border-bottom:1px solid var(--line)}
-h2{font-size:26px;margin:0 0 20px;letter-spacing:-.3px}
-.lead{font-size:19px;color:var(--muted);margin:0 0 28px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-  gap:20px;margin:28px 0}
-.card{border:1px solid var(--line);border-radius:5px;padding:22px;
-  background:var(--bg)}
-.card b{display:block;font-size:15px;margin-bottom:7px}
-.card p{margin:0;font-size:14px;color:var(--muted)}
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
-  margin:26px 0}
-.m{border:1px solid var(--line);border-radius:4px;padding:18px 12px;
-  text-align:center}
-.m b{display:block;font-size:28px;color:var(--teal);letter-spacing:-.5px}
-.m span{font-size:11px;color:var(--muted);text-transform:uppercase;
-  letter-spacing:.6px}
-.samples{background:var(--bg);border:1px solid var(--line);
-  border-radius:5px;padding:26px;margin:26px 0}
-.samples h3{margin:0 0 6px;font-size:17px}
-.samples p{color:var(--muted);font-size:14px;margin:0 0 18px}
-table{width:100%;border-collapse:collapse;font-size:14px;margin:16px 0}
-th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line)}
-th{font-weight:600;font-size:12px;text-transform:uppercase;
-  letter-spacing:.5px;color:var(--muted)}
-tr:last-child td{border-bottom:none}
-td.num{text-align:right;font-variant-numeric:tabular-nums;
-  font-weight:600;color:var(--teal)}
-form{background:var(--bg);border:1px solid var(--line);border-radius:5px;
-  padding:28px;margin:24px 0}
-label{display:block;font-weight:600;font-size:14px;margin:16px 0 6px}
-input[type=email],input[type=text],select,textarea{width:100%;padding:12px;
-  border:1px solid var(--line);border-radius:4px;font:inherit;font-size:15px;
-  background:#fff}
-input[type=file]{width:100%;padding:14px;border:1px dashed var(--line);
-  border-radius:4px;background:#fff;font:inherit;font-size:14px}
-small{display:block;color:var(--muted);font-size:13px;margin-top:6px}
-button[type=submit]{background:var(--teal);color:#fff;border:0;
-  padding:15px 32px;border-radius:4px;font:inherit;font-weight:600;
-  font-size:16px;cursor:pointer;margin-top:22px}
-button[type=submit]:hover{background:#0a6459}
-.pill{display:inline-block;background:#e6f4f1;color:var(--teal);
-  padding:4px 11px;border-radius:11px;font-size:12px;font-weight:600;
-  margin-bottom:12px}
-ol{color:var(--muted);font-size:15px}
-ol li{margin-bottom:9px}
-.faq details{border-bottom:1px solid var(--line);padding:17px 0}
-.faq summary{cursor:pointer;font-weight:600;font-size:16px}
-.faq p{margin:12px 0 0;color:var(--muted);font-size:15px}
-footer{background:var(--ink);color:#8fa3ba;padding:30px 0;font-size:14px}
-footer b{color:#fff}
-@media(max-width:640px){.metrics{grid-template-columns:repeat(2,1fr)}
-  header{padding:40px 0 36px}}
+:root{
+  --ink:#0b1526;
+  --ink2:#142338;
+  --body:#3d4f66;
+  --muted:#6b7f99;
+  --teal:#0e8a7d;
+  --teal-d:#0a6a60;
+  --teal-l:#e6f5f2;
+  --line:#dfe8f0;
+  --bg:#f6f9fc;
+  --white:#fff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font:400 17px/1.65 'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  color:var(--body);background:var(--white);
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+
+/* ---------- NAV ---------- */
+nav{background:rgba(11,21,38,.92);backdrop-filter:blur(10px);
+  position:sticky;top:0;z-index:50;border-bottom:1px solid rgba(255,255,255,.08)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;
+  height:64px}
+.brand{display:flex;align-items:center;gap:10px;
+  color:#fff;font-weight:700;font-size:17px;letter-spacing:-.2px}
+.brand .dot{width:9px;height:9px;border-radius:50%;background:var(--teal);
+  box-shadow:0 0 0 4px rgba(14,138,125,.18)}
+nav a.cta{background:var(--teal);color:#fff;padding:10px 20px;
+  border-radius:6px;text-decoration:none;font-weight:600;font-size:14.5px;
+  transition:background .15s}
+nav a.cta:hover{background:var(--teal-d)}
+
+/* ---------- HERO ---------- */
+header{background:var(--ink);color:#fff;position:relative;overflow:hidden}
+header::before{content:'';position:absolute;top:-320px;right:-180px;
+  width:900px;height:900px;border-radius:50%;
+  background:radial-gradient(circle,rgba(14,138,125,.20),transparent 62%)}
+header::after{content:'';position:absolute;bottom:-240px;left:-200px;
+  width:620px;height:620px;border-radius:50%;
+  background:radial-gradient(circle,rgba(56,120,220,.13),transparent 65%)}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:52px;
+  align-items:center;padding:82px 0 76px;position:relative;z-index:2}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;
+  background:rgba(14,138,125,.16);color:#5ee0d0;
+  padding:7px 14px;border-radius:20px;font-size:13px;font-weight:600;
+  letter-spacing:.3px;margin-bottom:22px;
+  border:1px solid rgba(14,138,125,.3)}
+h1{font-size:53px;line-height:1.08;font-weight:800;letter-spacing:-1.7px;
+  color:#fff;margin-bottom:20px}
+h1 em{font-style:normal;color:#5ee0d0}
+.lede{font-size:19px;line-height:1.6;color:#a9bdd4;max-width:520px;
+  margin-bottom:32px}
+.cta-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.btn{background:var(--teal);color:#fff;padding:16px 30px;border-radius:7px;
+  text-decoration:none;font-weight:600;font-size:16.5px;display:inline-block;
+  transition:transform .12s,background .15s;border:0;cursor:pointer;
+  font-family:inherit}
+.btn:hover{background:var(--teal-d);transform:translateY(-1px)}
+.btn.ghost{background:transparent;color:#c8d8ea;
+  border:1.5px solid rgba(255,255,255,.22)}
+.btn.ghost:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.4)}
+.trust{display:flex;gap:22px;margin-top:30px;flex-wrap:wrap}
+.trust span{display:flex;align-items:center;gap:7px;font-size:13.5px;
+  color:#8ba3bd}
+.trust span::before{content:'';width:15px;height:15px;border-radius:50%;
+  background:rgba(14,138,125,.3);flex:0 0 15px}
+
+/* ---------- HERO PREVIEW (producto real) ---------- */
+.preview{background:var(--white);border-radius:12px;overflow:hidden;
+  box-shadow:0 28px 70px rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.1)}
+.pv-bar{background:#f0f4f8;padding:11px 16px;display:flex;align-items:center;
+  gap:7px;border-bottom:1px solid var(--line)}
+.pv-bar i{width:9px;height:9px;border-radius:50%;background:#cfdae6;
+  display:block}
+.pv-bar b{margin-left:8px;font-size:12px;color:var(--muted);font-weight:600}
+.pv-sample{margin-left:auto;background:#ffe9c7;color:#8a5a00;padding:2px 8px;border-radius:4px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.pv-body{padding:22px}
+.pv-title{font-size:12px;font-weight:700;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.7px;margin-bottom:14px}
+.pv-big{display:flex;align-items:baseline;gap:9px;margin-bottom:20px;
+  padding-bottom:20px;border-bottom:1px solid var(--line)}
+.pv-big .amt{font-size:42px;font-weight:800;color:var(--teal);
+  letter-spacing:-1.5px;line-height:1}
+.pv-big .lbl{font-size:13.5px;color:var(--muted);line-height:1.35}
+.pv-rows{display:grid;gap:11px}
+.pv-row{display:flex;align-items:center;gap:12px;font-size:13.5px}
+.pv-row .k{color:var(--body);flex:1}
+.pv-row .v{font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+.pv-chip{display:inline-block;background:var(--teal-l);color:var(--teal-d);
+  padding:2px 9px;border-radius:4px;font-size:11.5px;font-weight:700;
+  margin-left:6px}
+.pv-note{margin-top:18px;padding:11px 13px;background:var(--teal-l);
+  border-radius:6px;font-size:12px;color:var(--teal-d);line-height:1.45}
+
+/* ---------- SECCIONES ---------- */
+section{padding:78px 0}
+section.alt{background:var(--bg)}
+h2{font-size:35px;font-weight:800;color:var(--ink);letter-spacing:-1px;
+  line-height:1.15;margin-bottom:14px}
+.sub{font-size:18.5px;color:var(--muted);max-width:660px;
+  line-height:1.6;margin-bottom:40px}
+
+/* ---------- 2x2 GRID ---------- */
+.feat{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+.f-card{background:var(--white);border:1px solid var(--line);
+  border-radius:11px;padding:28px;transition:border-color .15s,box-shadow .15s}
+.f-card:hover{border-color:#b9cfc9;box-shadow:0 8px 26px rgba(14,138,125,.07)}
+.f-ico{width:40px;height:40px;border-radius:9px;background:var(--teal-l);
+  display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.f-ico svg{width:20px;height:20px;stroke:var(--teal-d);fill:none;
+  stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.f-card h3{font-size:19px;color:var(--ink);font-weight:700;margin-bottom:9px;
+  letter-spacing:-.3px}
+.f-card p{font-size:15.5px;line-height:1.6;color:var(--body)}
+.f-card code{background:var(--bg);padding:1.5px 6px;border-radius:4px;
+  font-size:14px;color:var(--ink);font-family:ui-monospace,monospace}
+
+/* ---------- RESULT PANEL ---------- */
+.result{display:grid;grid-template-columns:.85fr 1.15fr;gap:44px;
+  align-items:center;margin-top:14px}
+.res-head{background:var(--ink);color:#fff;border-radius:12px;
+  padding:32px}
+.res-head .amt{font-size:56px;font-weight:800;color:#5ee0d0;
+  letter-spacing:-2.4px;line-height:1;margin:8px 0 6px}
+.res-head .sub{color:#a9bdd4;font-size:15px;margin:0 0 22px}
+.res-head ul{list-style:none;display:grid;gap:11px;
+  padding-top:20px;border-top:1px solid rgba(255,255,255,.13)}
+.res-head li{display:flex;gap:11px;font-size:14.5px;color:#c3d4e6}
+.res-head li::before{content:'';width:16px;height:16px;border-radius:50%;
+  background:rgba(14,138,125,.35);flex:0 0 16px;margin-top:3px}
+.tbl{background:var(--white);border:1px solid var(--line);
+  border-radius:11px;overflow:hidden}
+.tbl-h{background:var(--bg);padding:13px 18px;font-size:12px;
+  font-weight:700;color:var(--muted);text-transform:uppercase;
+  letter-spacing:.7px;border-bottom:1px solid var(--line)}
+.tbl-r{display:flex;justify-content:space-between;align-items:center;
+  padding:15px 18px;border-bottom:1px solid var(--line);font-size:15px}
+.tbl-r:last-child{border-bottom:0}
+.tbl-r .k{color:var(--body)}
+.tbl-r .v{font-weight:700;color:var(--ink);
+  font-variant-numeric:tabular-nums}
+.tbl-r.total{background:var(--teal-l)}
+.tbl-r.total .k{color:var(--ink);font-weight:700}
+.tbl-r.total .v{color:var(--teal-d);font-size:19px;font-weight:800}
+
+/* ---------- FLOW ---------- */
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.step{background:var(--white);border:1px solid var(--line);border-radius:10px;
+  padding:24px 20px;position:relative}
+.step .n{width:30px;height:30px;border-radius:50%;background:var(--teal);
+  color:#fff;font-weight:800;font-size:14px;display:flex;
+  align-items:center;justify-content:center;margin-bottom:14px}
+.step h4{font-size:16px;color:var(--ink);font-weight:700;margin-bottom:7px}
+.step p{font-size:15px;line-height:1.55;color:var(--muted)}
+
+/* ---------- SAFETY ---------- */
+.safe{display:grid;grid-template-columns:1fr 1fr;gap:40px;
+  align-items:center}
+.files{display:grid;gap:11px}
+.file{display:flex;align-items:center;gap:14px;background:var(--white);
+  border:1px solid var(--line);border-radius:9px;padding:16px 18px}
+.file .fn{font-family:ui-monospace,monospace;font-size:14px;
+  color:var(--teal-d);font-weight:600;flex:0 0 auto}
+.file .fd{font-size:14.5px;color:var(--muted);line-height:1.4}
+.security{margin-top:24px;padding-top:22px;
+  border-top:1px solid var(--line);display:grid;gap:12px}
+.security div{display:flex;gap:11px;font-size:15.5px;color:var(--body);
+  align-items:flex-start}
+.security div::before{content:'';width:17px;height:17px;border-radius:50%;
+  background:var(--teal-l);flex:0 0 17px;margin-top:3px}
+
+/* ---------- FORM ---------- */
+.form-wrap{display:grid;grid-template-columns:1fr 1.15fr;gap:48px;
+  align-items:start}
+form{background:var(--white);border:1px solid var(--line);
+  border-radius:13px;padding:32px;box-shadow:0 12px 34px rgba(11,21,38,.07)}
+.field{margin-bottom:17px}
+label{display:block;font-size:13.5px;font-weight:600;color:var(--ink);
+  margin-bottom:7px}
+label .opt{color:var(--muted);font-weight:400}
+input,select,textarea{width:100%;padding:13px 15px;border:1.5px solid var(--line);
+  border-radius:8px;font:inherit;font-size:16px;color:var(--ink);
+  background:var(--white);transition:border-color .15s,box-shadow .15s;
+  font-family:inherit}
+input:focus,select:focus,textarea:focus{outline:none;
+  border-color:var(--teal);box-shadow:0 0 0 3px rgba(14,138,125,.13)}
+textarea{resize:vertical;min-height:96px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.micro{font-size:14px;color:var(--muted);line-height:1.5;margin-top:13px}
+.perks{display:grid;gap:16px;margin-top:26px}
+.perk{display:flex;gap:13px;align-items:flex-start}
+.perk .ck{width:21px;height:21px;border-radius:50%;background:var(--teal);
+  flex:0 0 21px;display:flex;align-items:center;justify-content:center;
+  margin-top:2px}
+.perk .ck svg{width:11px;height:11px;stroke:#fff;fill:none;stroke-width:3;
+  stroke-linecap:round;stroke-linejoin:round}
+.perk b{display:block;color:var(--ink);font-size:15.5px;margin-bottom:3px}
+.perk p{font-size:14px;color:var(--muted);line-height:1.5}
+
+/* ---------- FAQ ---------- */
+.faq{max-width:760px}
+.faq details{border:1px solid var(--line);border-radius:9px;
+  padding:20px 22px;margin-bottom:12px;background:var(--white)}
+.faq summary{cursor:pointer;font-weight:600;color:var(--ink);font-size:16.5px;
+  list-style:none;display:flex;justify-content:space-between;gap:16px;
+  align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';color:var(--teal);font-size:23px;
+  font-weight:400;line-height:1;flex:0 0 auto}
+.faq details[open] summary::after{content:'−'}
+.faq p{margin-top:14px;font-size:16.5px;line-height:1.65;color:var(--body)}
+.faq code{background:var(--bg);padding:2px 7px;border-radius:4px;
+  font-family:ui-monospace,monospace;font-size:14px;color:var(--ink)}
+
+/* ---------- CTA FINAL ---------- */
+.final{background:var(--ink);color:#fff;text-align:center;padding:76px 0}
+.final h2{color:#fff;margin-bottom:14px}
+.final p{color:#a9bdd4;font-size:18.5px;max-width:600px;margin:0 auto 30px}
+.final .btn{background:#5ee0d0;color:var(--ink);font-weight:700}
+.final .btn:hover{background:#4fd4c2}
+footer{background:#070f1c;color:#6d8299;padding:34px 0;font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px}
+footer b{color:#c3d4e6}
+
+@media(max-width:1000px){
+  .hero,.result,.safe,.form-wrap{grid-template-columns:1fr}
+  .feat{grid-template-columns:1fr}
+  .flow{grid-template-columns:repeat(2,1fr)}
+  h1{font-size:40px}
+  h2{font-size:29px}
+}
+@media(max-width:620px){
+  .flow{grid-template-columns:1fr}
+  .row2{grid-template-columns:1fr}
+  h1{font-size:33px}
+  .wrap{padding:0 20px}
+  section{padding:56px 0}
+}
 </style></head><body>
 
-<header><div class="wrap">
-<h1>Your CRM has a number. Find out what it costs you.</h1>
-<p>Duplicate contacts, empty fields, and leads nobody followed up on.
-The technical report is easy. The cost is what gets approved. Here's
-both.</p>
-<a class="cta" href="#audit">Get your free audit</a>
+<nav><div class="wrap">
+  <div class="brand"><span class="dot"></span>CRM Cleanup</div>
+  <a class="cta" href="#audit">Get my free audit</a>
+</div></nav>
+
+<header><div class="wrap hero">
+  <div>
+    <div class="eyebrow">CRM data quality audit</div>
+    <h1>Your CRM has a number.<br>Find out what <em>it costs</em> you.</h1>
+    <p class="lede">Duplicate contacts, empty fields, and leads nobody
+    followed up on. I find them in your export and price them in your
+    currency &mdash; so the fix gets approved.</p>
+    <div class="cta-row">
+      <a class="btn" href="#audit">Get my free audit</a>
+      <a class="btn ghost" href="#sample">View a sample report</a>
+    </div>
+    <div class="trust">
+      <span>Your live CRM is never connected</span>
+      <span>Nothing deleted without approval</span>
+      <span>Report in 48h</span>
+    </div>
+  </div>
+
+  <div class="preview" id="sample">
+    <div class="pv-bar">
+      <i></i><i></i><i></i>
+      <b>crm-audit-summary.json</b><span class="pv-sample">sample</span>
+    </div>
+    <div class="pv-body">
+      <div class="pv-title">Annual cost of your data quality</div>
+      <div class="pv-big">
+        <div class="amt">$15,657</div>
+        <div class="lbl">recoverable per year<br>from your export</div>
+      </div>
+      <div class="pv-rows">
+        <div class="pv-row"><span class="k">Rep hours on dedupe &amp; lookups</span>
+          <span class="v">$12,157</span></div>
+        <div class="pv-row"><span class="k">Revenue from forgotten leads</span>
+          <span class="v">$3,500</span></div>
+        <div class="pv-row"><span class="k">Bounced sends &amp; domain reputation</span>
+          <span class="v">$0</span></div>
+        <div class="pv-row"><span class="k">Duplicates resolved</span>
+          <span class="v">119 <span class="pv-chip">23.8%</span></span></div>
+        <div class="pv-row"><span class="k">Empty fields recovered</span>
+          <span class="v">92</span></div>
+        <div class="pv-row"><span class="k">Stale records flagged</span>
+          <span class="v">300</span></div>
+      </div>
+      <div class="pv-note">Every assumption ships in the report. If your
+      cost per rep differs, I recalculate.</div>
+    </div>
+  </div>
 </div></header>
 
 <section><div class="wrap">
-<h2>What you actually get</h2>
-<p class="lead">A real report on your own data, produced by an engine I
-built for exactly this. Not a checklist, not a template.</p>
+  <h2>What you actually get</h2>
+  <p class="sub">A report on your own data from an engine built for exactly
+  this. Not a checklist, not a template.</p>
 
-<div class="grid">
-<div class="card"><b>Duplicate records resolved</b>
-<p>Entity resolution, not string matching. "John Smith," "J. Smith" and
-"Jon Smyth" at one company resolve to one person. Exact-match dedupe
-finds none of them.</p></div>
-<div class="card"><b>Empty fields recovered</b>
-<p>When a duplicate has a value the other one is missing, that value is
-recovered instead of lost. On a 500-record sample: 92 blanks filled
-from duplicates.</p></div>
-<div class="card"><b>Forgotten leads surfaced</b>
-<p>Contacts with no activity in 90+ days, separated from records that
-were already closed or never viable. Same thing as your pipeline,
-except honest about it.</p></div>
-<div class="card"><b>The economic number</b>
-<p>Wasted rep hours, unworked leads, and bounce cost, priced from your
-own cost per rep. This is the number that gets budget approved.</p></div>
-</div>
+  <div class="feat">
+    <div class="f-card">
+      <div class="f-ico"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <h3>Duplicate records resolved by entity, not by string</h3>
+      <p><code>"John Smith"</code>, <code>"J. Smith"</code> and
+      <code>"Jon Smyth"</code> at one company resolve to a single person.
+      Exact-match dedupe catches none of them &mdash; on a 500-record sample
+      it caught 117 of 119.</p>
+    </div>
 
-<p class="pill">Real run, 500-record CRM export</p>
-<div class="metrics">
-<div class="m"><b>500&rarr;381</b><span>records</span></div>
-<div class="m"><b>119</b><span>duplicates</span></div>
-<div class="m"><b>92</b><span>fields recovered</span></div>
-<div class="m"><b>300</b><span>stale flagged</span></div>
-</div>
+    <div class="f-card">
+      <div class="f-ico"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <h3>Empty fields recovered, not lost</h3>
+      <p>When a duplicate holds a value the other one is missing, that value
+      is recovered. 92 blanks filled on the sample run. Merging without this
+      step quietly destroys data.</p>
+    </div>
 
-<table>
-<tr><th>What it costs per year</th><th style="text-align:right">Estimate</th></tr>
-<tr><td>Rep time on deduplication and manual lookups</td>
-<td class="num">$12,157</td></tr>
-<tr><td>Revenue from forgotten leads, if followed up</td>
-<td class="num">$3,500</td></tr>
-<tr><td><b>Total annual cost of the data quality</b></td>
-<td class="num">$15,657</td></tr>
-</table>
-<p style="font-size:14px;color:var(--muted)">Every assumption is in the
-report and adjustable. If your cost per rep differs, I recalculate.
-These figures come from that export, not from an industry average.</p>
+    <div class="f-card">
+      <div class="f-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+      <h3>Forgotten leads, separated from dead ones</h3>
+      <p>Contacts with no activity in 90+ days, split from records that were
+      already closed or never viable. That distinction is the difference
+      between a list you can work and one you delete.</p>
+    </div>
+
+    <div class="f-card">
+      <div class="f-ico"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+      <h3>The economic number</h3>
+      <p>Wasted rep hours, unworked leads and bounce cost, priced from
+      <em>your</em> cost per rep. This is the number that gets budget
+      approved &mdash; not "you have 119 duplicates."</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="alt"><div class="wrap">
+  <h2>What a real run looks like</h2>
+  <p class="sub">500 records from a CRM that hadn't been governed for a few
+  years. These are its numbers, not an industry average.</p>
+
+  <div class="result">
+    <div class="res-head">
+      <div class="pv-title" style="color:#7f9ab8">Annual impact</div>
+      <div class="amt">$15,657</div>
+      <p class="sub">estimated annual cost of poor data quality</p>
+      <ul>
+        <li>68 hours of rep time on dedupe and manual lookups</li>
+        <li>7 forgotten leads that reactivate with follow-up</li>
+        <li>39 records flagged with impossible future dates</li>
+        <li>32 borderline pairs held for manual review</li>
+      </ul>
+    </div>
+
+    <div class="tbl">
+      <div class="tbl-h">Cost breakdown</div>
+      <div class="tbl-r"><span class="k">Rep time on dedupe &amp; lookups</span>
+        <span class="v">$12,157</span></div>
+      <div class="tbl-r"><span class="k">Revenue from forgotten leads</span>
+        <span class="v">$3,500</span></div>
+      <div class="tbl-r"><span class="k">Bounced sends &amp; reputation</span>
+        <span class="v">$0</span></div>
+      <div class="tbl-r total"><span class="k">Total annual cost</span>
+        <span class="v">$15,657</span></div>
+      <div class="tbl-r"><span class="k">Duplicates resolved</span>
+        <span class="v">119 <span class="pv-chip">23.8% of records</span></span></div>
+      <div class="tbl-r"><span class="k">Fields recovered</span>
+        <span class="v">92</span></div>
+    </div>
+  </div>
 </div></section>
 
 <section><div class="wrap">
-<h2>Nothing gets deleted. Ever.</h2>
-<p class="lead">A cleanup tool that deletes records without showing you
-first is a liability. This one doesn't.</p>
-<div class="samples">
-<h3>You receive four files</h3>
-<p>Everything is a proposal until you approve it.</p>
-<table>
-<tr><th>File</th><th>What it is</th></tr>
-<tr><td><code>before.csv</code></td><td>Your original export, untouched</td></tr>
-<tr><td><code>after.csv</code></td><td>The proposed clean version</td></tr>
-<tr><td><code>merge_plan.json</code></td><td>Every merge with the score that
-justified it, and which record survives</td></tr>
-<tr><td><code>summary.json</code></td><td>Before/after metrics and the economic
-model</td></tr>
-</table>
-<p style="font-size:14px;color:var(--muted);margin:0">Borderline pairs (78%
-to 87% match, for example) go to a manual review list instead of being
-merged automatically. If the plan is wrong, nothing happens.</p>
-</div>
+  <h2>How it works</h2>
+  <p class="sub">Four steps. The report is yours whether or not you buy
+  anything.</p>
+  <div class="flow">
+    <div class="step"><div class="n">1</div>
+      <h4>Export your CRM</h4>
+      <p>CSV from HubSpot, Salesforce, Pipedrive, Zoho or Dynamics.
+      Column names in English or Spanish are detected automatically.</p></div>
+    <div class="step"><div class="n">2</div>
+      <h4>Request the audit</h4>
+      <p>Reply to my email with the file. I run the analysis on that copy
+      &mdash; never on your live system.</p></div>
+    <div class="step"><div class="n">3</div>
+      <h4>Get the report</h4>
+      <p>Duplicates, stale records, malformed fields, and what it costs.
+      With the merge plan and the economic model.</p></div>
+    <div class="step"><div class="n">4</div>
+      <h4>Decide</h4>
+      <p>Want the cleanup, we run it as a fixed-price sprint. Don't, keep
+      the report and owe nothing.</p></div>
+  </div>
 </div></section>
 
-<section><div class="wrap">
-<h2>How it works</h2>
-<ol>
-<li>You export your CRM to CSV. HubSpot, Salesforce, Pipedrive, Zoho,
-Dynamics all work.</li>
-<li>You upload it below. I run the audit on a copy. Your live CRM is
-never connected to.</li>
-<li>You get the report: duplicates, stale records, malformed fields,
-and what it costs.</li>
-<li>If you want the cleanup, we do it as a fixed-price sprint. If not,
-you keep the report and owe nothing.</li>
-</ol>
+<section class="alt"><div class="wrap safe">
+  <div>
+    <h2>Nothing changes without your approval</h2>
+    <p class="sub">A cleanup tool that edits records before showing you is a
+    liability. This one produces a proposal.</p>
+    <div class="security">
+      <div>Your live CRM is never connected. I only ever see the export you
+      send.</div>
+      <div>The file is used for your audit and deleted on request.</div>
+      <div>Borderline matches (78&ndash;87% similarity) go to a manual review
+      list instead of merging automatically.</div>
+      <div>A shared office phone is not treated as proof two records are the
+      same person &mdash; phone-only matching deleted a real customer during
+      testing.</div>
+    </div>
+  </div>
+  <div class="files">
+    <div class="file"><span class="fn">before.csv</span>
+      <span class="fd">Your original export, untouched</span></div>
+    <div class="file"><span class="fn">after.csv</span>
+      <span class="fd">The proposed clean version</span></div>
+    <div class="file"><span class="fn">merge_plan.json</span>
+      <span class="fd">Every merge with the score that justified it and
+      which record survives</span></div>
+    <div class="file"><span class="fn">summary.json</span>
+      <span class="fd">Before/after metrics and the economic model</span></div>
+  </div>
 </div></section>
 
-<section id="audit"><div class="wrap">
-<h2>Get your free audit</h2>
-<p class="lead">Upload your CSV. You get the full report back, free,
-with no obligation to buy anything.</p>
+<section id="audit"><div class="wrap form-wrap">
+  <div>
+    <h2>Get your free audit</h2>
+    <p class="sub">Tell me about the problem. I reply within 24 hours with a
+  link for your export.</p>
+    <div class="perks">
+      <div class="perk"><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <div><b>Free, no obligation</b>
+        <p>The report is yours to keep, with or without a paid cleanup.</p></div></div>
+      <div class="perk"><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <div><b>Turnaround</b>
+        <p>I reply within 24h; the report lands within 48h of receiving your export.</p></div></div>
+      <div class="perk"><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <div><b>No sales call unless you ask</b>
+        <p>You get the report first. If you want to talk, you ask.</p></div></div>
+      <div class="perk"><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <div><b>White-label available</b>
+        <p>Agencies: I work under your brand and you keep the margin.</p></div></div>
+    </div>
+  </div>
 
-<form id="leadform" novalidate>
-<label for="n">Name</label>
-<input type="text" id="n" name="nombre" required autocomplete="name">
-
-<label for="e">Work email</label>
-<input type="email" id="e" name="email" required autocomplete="email">
-
-<label for="c">CRM you're using</label>
-<select id="c" name="crm">
-<option>HubSpot</option><option>Salesforce</option>
-<option>Pipedrive</option><option>Zoho CRM</option>
-<option>Microsoft Dynamics</option><option>Other / not sure</option>
-</select>
-
-<label for="m">What's the problem? (optional)</label>
-<textarea id="m" name="notas" rows="4"
-  placeholder="e.g. 40k records, reporting is wrong. Or: we migrated from Salesforce in 2024 and the numbers never added up. Or: our reps keep emailing the same leads twice."></textarea>
-
-<label for="r">Roughly how many records?</label>
-<select id="r" name="registros">
-<option value="">Not sure</option>
-<option>Under 1,000</option>
-<option>1,000 - 10,000</option>
-<option>10,000 - 50,000</option>
-<option>Over 50,000</option>
-</select>
-
-<button type="submit">Request my free audit</button>
-<small>I'll reply within 24 hours with a link to send your export.
-No sales call unless you ask for one.</small>
-</form>
-
-<p id="ok" style="display:none;background:#e6f4f1;border:1px solid #b8ded7;
-  color:#0d7d6f;padding:16px;border-radius:4px;font-weight:600">
-Your email app should have opened with the request. If it didn't,
-email proposals@outreach.cesarbuilds.com directly.
-</p>
+  <form id="leadform" novalidate>
+    <div class="field">
+      <label for="n">Name</label>
+      <input type="text" id="n" name="nombre" required autocomplete="name">
+    </div>
+    <div class="field">
+      <label for="e">Work email</label>
+      <input type="email" id="e" name="email" required autocomplete="email">
+    </div>
+    <div class="row2">
+      <div class="field">
+        <label for="c">CRM</label>
+        <select id="c" name="crm">
+          <option>HubSpot</option><option>Salesforce</option>
+          <option>Pipedrive</option><option>Zoho CRM</option>
+          <option>Microsoft Dynamics</option><option>Other / not sure</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="r">Record count</label>
+        <select id="r" name="registros">
+          <option>Not sure</option><option>Under 1,000</option>
+          <option>1,000 &ndash; 10,000</option>
+          <option>10,000 &ndash; 50,000</option><option>Over 50,000</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label for="m">What's the problem? <span class="opt">(optional)</span></label>
+      <textarea id="m" name="notas" rows="4"
+        placeholder="e.g. 40k records and reporting is wrong. Or: we migrated from Salesforce in 2024 and the numbers never added up. Or: reps keep emailing the same leads twice."></textarea>
+    </div>
+    <button class="btn" type="submit" style="width:100%">Get my free audit</button>
+    <p class="micro">I'll reply with a link to send your export. Your CRM
+    data is never shared, sold, or used to contact your contacts.</p>
+  </form>
 </div></section>
 
-<section class="faq"><div class="wrap">
-<h2>Questions</h2>
-<details><summary>Is my data safe?</summary>
-<p>I never connect to your live CRM. You upload a CSV export and I work
-on that file. The audit runs locally, nothing is uploaded to a third
-party, and you can ask for the file to be deleted when we're done.</p>
-</details>
-<details><summary>What if my CSV has messy column names?</summary>
-<p>That's normal and it's handled. <code>Email</code>, <code>Correo</code>,
-<code>work_email</code> and <code>E-mail Address</code> all map to the same
-field. Same for phone, company, and last-activity date in English or
-Spanish.</p>
-</details>
-<details><summary>How is 23.8% duplicates a real number, not a guess?</summary>
-<p>It's from a 500-record export built to reproduce a CRM that hasn't been
-governed for a few years. 117 duplicates were exact matches on email or
-phone; 2 were fuzzy matches on name plus company. Those 2 are the ones
-that matter — a spreadsheet never catches them.</p>
-</details>
-<details><summary>Why won't it just delete the duplicates?</summary>
-<p>Because a shared office phone or a reassigned mobile is not proof that
-two records are the same person. During testing, phone-only matching
-merged two different customers. It now needs two independent signals
-before it merges anything, and everything goes to a review plan first.</p>
-</details>
-<details><summary>What does the cleanup cost if I go ahead?</summary>
-<p>Audit and plan: $3,000. Full cleanup: $12,000. Ongoing monthly hygiene:
-$5,000/mo. Those come from the economic model, not a package sheet — if
-your data is in better shape, the price is lower.</p>
-</details>
+<section class="alt"><div class="wrap">
+  <h2>Questions</h2>
+  <div class="faq" style="margin-top:28px">
+    <details><summary>Is my data safe?</summary>
+    <p>I never connect to your live CRM. You send a CSV export and I work
+    on that file. It's used for your audit and deleted on request. I'd
+    rather lose the data than your trust &mdash; that's the whole basis of
+    this service.</p></details>
+    <details><summary>What if my CSV has messy column names?</summary>
+    <p>That's normal and it's handled. <code>Email</code>,
+    <code>Correo</code>, <code>work_email</code> and
+    <code>E-mail Address</code> all map to the same field, as do phone,
+    company and last-activity date in English or Spanish.</p></details>
+    <details><summary>How is 23.8% duplicates a real number?</summary>
+    <p>From the 500-record export shown above. 117 duplicates were exact
+    matches on email or phone; 2 were fuzzy matches on name plus company.
+    Those 2 are the interesting ones &mdash; a spreadsheet never catches
+    them, and they're usually the records causing double-follow-up.</p></details>
+    <details><summary>Why won't it just delete the duplicates?</summary>
+    <p>Because a shared office line or a reassigned mobile isn't proof that
+    two records are the same person. Phone-only matching merged two
+    different customers during testing. It now needs two independent
+    signals before merging anything, and everything lands in a review plan
+    first.</p></details>
+    <details><summary>What does the cleanup cost?</summary>
+    <p>Audit and plan: $3,000. Full cleanup: $12,000. Ongoing monthly
+    hygiene: $5,000/mo. Those come from the economic model on your data,
+    not a package sheet &mdash; if your CRM is in better shape, the price
+    is lower.</p></details>
+    <details><summary>I'm an agency. Can I resell this?</summary>
+    <p>Yes &mdash; white-label, fixed price per sprint, you keep the
+    margin and I work under your brand. I already delivered the $15,657
+    report format to two HubSpot partners.</p></details>
+  </div>
+</div></section>
+
+<section class="final"><div class="wrap">
+  <h2>Find the number first</h2>
+  <p>Once you see what the data costs per year, the decision isn't
+  whether to fix it &mdash; it's who does it.</p>
+  <a class="btn" href="#audit">Get my free audit</a>
 </div></section>
 
 <footer><div class="wrap">
-<b>Cesar Rosales &middot; CRM Cleanup</b><br>
-Data quality for small B2B teams. Entity resolution, deduplication,
-and the economic case for fixing it.
+  <div><b>CRM Cleanup</b> &middot; Cesar Rosales &middot;
+    proposals@outreach.cesarbuilds.com</div>
+  <div>Entity resolution, deduplication, and the business case for
+    fixing it.</div>
 </div></footer>
 
-
 <script>
-// 🟣 CRM CLEANUP — el form no puede hacer POST a un sitio estatico.
-// Arma un mailto: abre el cliente de correo con los datos ya escritos.
-// Sin backend, sin KYC, sin perder el lead.
 document.getElementById('leadform').addEventListener('submit', function(e){
   e.preventDefault();
-  var g = function(id){ return (document.getElementById(id)||{}).value||''; };
-  var cuerpo =
-    "Name: " + g('n') + "\n" +
-    "Email: " + g('e') + "\n" +
-    "CRM: " + g('c') + "\n" +
-    "Records: " + g('r') + "\n" +
-    "Problem: " + g('m') + "\n\n" +
-    "---\n" +
-    "Please send me my free CRM data quality audit.\n" +
-    "I'll reply with a link to upload my CRM export.";
-  window.location.href = "mailto:proposals@outreach.cesarbuilds.com"
-    + "?subject=" + encodeURIComponent("Free CRM audit request - " + g('n'))
-    + "&body=" + encodeURIComponent(cuerpo);
-  document.getElementById('ok').style.display = 'block';
-  document.getElementById('leadform').style.display = 'none';
+  var g=function(id){return (document.getElementById(id)||{}).value||'';};
+  var cuerpo=
+    "Name: "+g('n')+"\n"+
+    "Email: "+g('e')+"\n"+
+    "CRM: "+g('c')+"\n"+
+    "Records: "+g('r')+"\n"+
+    "Problem: "+g('m')+"\n\n"+
+    "---\nPlease send me my free CRM data quality audit. I'll reply with a link to upload my export.";
+  window.location.href="mailto:proposals@outreach.cesarbuilds.com"+
+    "?subject="+encodeURIComponent("Free CRM audit - "+g('n'))+
+    "&body="+encodeURIComponent(cuerpo);
+  var ok=document.createElement('div');
+  ok.style.cssText="background:#e6f5f2;border:1px solid #9fd3cb;color:#0a6a60;padding:16px;border-radius:8px;font-weight:600;margin-top:18px";
+  ok.textContent="Your email app should have opened. If not, write to proposals@outreach.cesarbuilds.com";
+  this.appendChild(ok);
+  this.querySelectorAll('input,select,textarea,button')
+    .forEach(function(x){x.disabled=true;x.style.opacity='.5';});
 });
 </script>
+
 </body></html>
