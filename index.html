@@ -10,7 +10,7 @@
 :root{
   --ink:#0a1220;      --ink-2:#101d30;
   --body:#41546e;     --muted:#6b7f9b;
-  --teal:#0f8f80;     --teal-d:#0a6a5e;  --teal-l:#e4f4f1;
+  --teal:#0d7f72;     --teal-d:#095a51;  --teal-l:#e4f4f1;
   --amber:#c2760a;    --amber-l:#fdf3e2;
   --line:#dde7f0;     --bg:#f5f9fc;
   --sans:'IBM Plex Sans',-apple-system,sans-serif;
@@ -40,8 +40,14 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;
 .brand{display:flex;align-items:center;gap:11px;color:var(--ink);
   font-family:var(--display);font-weight:700;font-size:17.5px;
   letter-spacing:-.4px;text-decoration:none}
-.brand .dot{width:8px;height:8px;border-radius:50%;background:var(--teal);
-  position:relative}
+.brand .mark{width:26px;height:26px;border-radius:7px;
+  background:var(--teal);position:relative;flex:0 0 26px;
+  display:flex;align-items:center;justify-content:center}
+.brand .mark::after{content:'';width:11px;height:11px;
+  border:2px solid #fff;border-radius:2px;
+  border-right-color:transparent;border-bottom-color:transparent;
+  transform:rotate(-45deg)}
+.brand .dot{display:none}
 .brand .dot::after{content:'';position:absolute;inset:-4px;
   border:1px solid var(--teal);border-radius:50%;opacity:.32;
   animation:pulse 2.8s var(--ease) infinite}
@@ -90,7 +96,7 @@ h1 .ln:nth-child(2)>span{animation-delay:.11s}
 h1 .ln:nth-child(3)>span{animation-delay:.22s}
 @keyframes up{to{transform:none}}
 h1 em{font-style:normal;color:#5fdcc9}
-.lede{font-size:19px;line-height:1.62;color:#a3b8d0;max-width:510px;
+.lede{font-size:18.5px;line-height:1.6;color:#c2d3e6;max-width:530px;
   margin-bottom:34px;opacity:0;animation:fade .9s var(--ease) .42s forwards}
 @keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 .cta-row{display:flex;gap:14px;flex-wrap:wrap;opacity:0;
@@ -102,18 +108,20 @@ h1 em{font-style:normal;color:#5fdcc9}
 .btn:hover{background:var(--teal-d);transform:translateY(-2px)}
 .btn .arw{transition:transform .28s var(--ease)}
 .btn:hover .arw{transform:translateX(4px)}
-.btn.ghost{background:transparent;color:#c2d3e6;
-  border:1.5px solid rgba(255,255,255,.2)}
+.btn.ghost{background:transparent;color:#d4e2f0;font-size:15.5px;
+  padding:15px 24px;border:1.5px solid rgba(255,255,255,.3)}
 .btn.ghost:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.42)}
-.trust{display:flex;gap:26px;margin-top:34px;flex-wrap:wrap;
+.trust{display:grid;grid-template-columns:repeat(3,auto);gap:22px;
+  margin-top:34px;justify-content:start;
   opacity:0;animation:fade .9s var(--ease) .68s forwards}
-.trust span{display:flex;align-items:center;gap:8px;font-size:13.5px;color:#8ba1bb}
+.trust span{display:flex;align-items:center;gap:9px;font-size:14px;
+  color:#a9bdd4;white-space:nowrap}
 .trust span::before{content:'';width:5px;height:5px;border-radius:50%;
   background:#5fdcc9;flex:0 0 5px}
 
 /* ---- PREVIEW con scan line ---- */
-.preview{background:#fff;border-radius:11px;overflow:hidden;
-  box-shadow:0 34px 84px rgba(0,0,0,.44);position:relative;
+.preview{background:#fbfcfd;border-radius:11px;overflow:hidden;
+  box-shadow:0 26px 64px rgba(0,0,0,.34);position:relative;
   opacity:0;animation:cardIn 1.05s var(--ease) .34s forwards}
 @keyframes cardIn{from{opacity:0;transform:translateY(38px) scale(.975)}
   to{opacity:1;transform:none}}
@@ -134,8 +142,8 @@ h1 em{font-style:normal;color:#5fdcc9}
   text-transform:uppercase;letter-spacing:1.1px;margin-bottom:12px}
 .pv-hero{display:flex;align-items:baseline;gap:11px;padding-bottom:20px;
   margin-bottom:20px;border-bottom:1px solid var(--line)}
-.pv-hero .amt{font-family:var(--display);font-size:46px;font-weight:700;
-  color:var(--teal);letter-spacing:-2.2px;line-height:1;
+.pv-hero .amt{font-family:var(--display);font-size:38px;font-weight:700;
+  color:var(--teal);letter-spacing:-1.6px;line-height:1;
   font-variant-numeric:tabular-nums}
 .pv-hero .lbl{font-size:13.5px;color:var(--muted);line-height:1.4}
 .pv-rows{display:grid;gap:2px}
@@ -352,7 +360,7 @@ footer b{color:#c2d3e6;font-weight:500}
   .row2{grid-template-columns:1fr}
   .pipe-row{grid-template-columns:44px 1fr;gap:14px}
   .pipe-t{grid-column:2;justify-self:start;margin-top:6px}
-  .trust{gap:14px}
+  .trust{grid-template-columns:1fr;gap:10px}
 }
 
 @media(prefers-reduced-motion:reduce){
@@ -366,7 +374,7 @@ footer b{color:#c2d3e6;font-weight:500}
 </style></head><body>
 
 <nav><div class="wrap">
-  <a class="brand" href="#top"><span class="dot"></span>CRM Cleanup</a>
+  <a class="brand" href="#top"><span class="mark"></span>CRM Cleanup</a>
   <div class="nav-r">
     <a href="#sample" class="hide-m">Sample report</a>
     <a href="#how" class="hide-m">How it works</a>
@@ -382,19 +390,20 @@ footer b{color:#c2d3e6;font-weight:500}
     <div>
       <div class="eyebrow">CRM data quality audit</div>
       <h1>
-        <span class="ln"><span>Your CRM has</span></span>
-        <span class="ln"><span>a number. Find</span></span>
-        <span class="ln"><span>what <em>it costs</em> you.</span></span>
+        <span class="ln"><span>Bad CRM data</span></span>
+        <span class="ln"><span>has a price.</span></span>
+        <span class="ln"><span>Here <em>is the number.</em></span></span>
       </h1>
-      <p class="lede">Duplicate contacts, empty fields, and leads nobody
-      followed up on. I find them in your export and price them in your
-      currency &mdash; so the fix gets approved.</p>
+      <p class="lede">The duplicates, empty fields and forgotten leads sitting
+      in your database cost you money every month. I find them in your export
+      and put a price on them &mdash; in your currency, from your own cost per
+      rep. That is the number your boss approves.</p>
       <div class="cta-row">
         <a class="btn" href="#audit">Get my free audit <span class="arw">&rarr;</span></a>
-        <a class="btn ghost" href="#sample">See a sample report</a>
+        <a class="btn ghost" href="#sample">See the sample report</a>
       </div>
       <div class="trust">
-        <span>Live CRM never connected</span>
+        <span>Never connects to your CRM</span>
         <span>Nothing deleted without approval</span>
         <span>Report in 48h</span>
       </div>
@@ -404,7 +413,7 @@ footer b{color:#c2d3e6;font-weight:500}
       <div class="scan"></div>
       <div class="pv-bar">
         <i></i><i></i><i></i>
-        <b>crm-audit-summary.json</b>
+        <b>crm-data-audit-report.pdf</b>
         <span class="pv-tag">sample</span>
       </div>
       <div class="pv-body">
