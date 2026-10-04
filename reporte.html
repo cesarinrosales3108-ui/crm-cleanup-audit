@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>CRM Data Audit Report — $149 | CRM Cleanup</title>
-<meta name="description" content="Find out what your dirty CRM costs you annually. Send your CSV, get a full data quality audit with the economic number. $149, fixed scope, 48h.">
+<meta name="description" content="Send your CRM export, get a full data quality audit with the annual cost in wasted rep hours and unworked leads. $149, fixed scope, 48h.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -10,6 +10,7 @@
 :root{
   --ink:#0a1220;--body:#41546e;--muted:#6b7f9b;
   --teal:#0d7f72;--teal-d:#095a51;--teal-l:#e4f4f1;
+  --mint:#5fdcc9;
   --amber:#c2760a;--amber-l:#fdf3e2;
   --line:#dde7f0;--bg:#f5f9fc;
   --sans:'IBM Plex Sans',sans-serif;
@@ -19,83 +20,171 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font:400 17px/1.65 var(--sans);color:var(--body);background:#fff;
-  -webkit-font-smoothing:antialiased}
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
 .wrap{max-width:980px;margin:0 auto;padding:0 28px}
-.rv{opacity:0;transform:translateY(24px);
-  transition:opacity .8s var(--ease),transform .8s var(--ease)}
+
+/* ============ MOTION BASE ============ */
+.rv{opacity:0;transform:translateY(26px);
+  transition:opacity .85s var(--ease),transform .85s var(--ease)}
 .rv.in{opacity:1;transform:none}
+.rv-l{opacity:0;transform:translateX(-24px);
+  transition:opacity .85s var(--ease),transform .85s var(--ease)}
+.rv-l.in{opacity:1;transform:none}
+.d1{transition-delay:.09s}.d2{transition-delay:.18s}
+.d3{transition-delay:.27s}.d4{transition-delay:.36s}
+.d5{transition-delay:.45s}.d6{transition-delay:.54s}
+.d7{transition-delay:.63s}
 
-/* NAV */
-nav{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:60}
-nav .wrap{display:flex;align-items:center;justify-content:space-between;height:66px}
+/* ============ LOGO: dos registros que se resuelven en uno ============ */
+.logo{display:block}
+.logo .disc-a,.logo .disc-b{transform-origin:20px 20px}
+.logo .disc-b{animation:mergeB 5s var(--ease) infinite}
+.logo .disc-a{animation:mergeA 5s var(--ease) infinite}
+.logo .mline{opacity:0;animation:mergeLine 5s var(--ease) infinite}
+@keyframes mergeA{
+  0%,12%   {transform:translateX(-7px)}
+  38%,72%  {transform:translateX(0)}
+  88%,100% {transform:translateX(-7px)}
+}
+@keyframes mergeB{
+  0%,12%   {transform:translateX(7px)}
+  38%,72%  {transform:translateX(0)}
+  88%,100% {transform:translateX(7px)}
+}
+@keyframes mergeLine{
+  0%,20%   {opacity:0;transform:scaleY(.2)}
+  38%,72%  {opacity:1;transform:scaleY(1)}
+  86%,100% {opacity:0;transform:scaleY(.2)}
+}
+.logo-solo .disc-a,.logo-solo .disc-b{animation:none!important}
+.logo-solo .disc-a{transform:translateX(-7px)}
+.logo-solo .disc-b{transform:translateX(7px)}
+
 .brand{display:flex;align-items:center;gap:11px;color:var(--ink);
-  font-family:var(--display);font-weight:700;font-size:17px;text-decoration:none;
-  letter-spacing:-.4px}
-.brand .mark{width:26px;height:26px;border-radius:7px;background:var(--teal);
-  position:relative;flex:0 0 26px;display:flex;align-items:center;
-  justify-content:center}
-.brand .mark::after{content:'';width:11px;height:11px;border:2px solid #fff;
-  border-radius:2px;border-right-color:transparent;border-bottom-color:transparent;
-  transform:rotate(-45deg)}
-nav a.back{color:var(--muted);text-decoration:none;font-size:15px;
-  display:flex;align-items:center;gap:7px}
-nav a.back:hover{color:var(--ink)}
+  font-family:var(--display);font-weight:700;font-size:17px;
+  text-decoration:none;letter-spacing:-.4px}
 
-/* HERO */
-header{background:var(--ink);color:#fff;padding:76px 0 68px;position:relative;
-  overflow:hidden}
-header::after{content:'';position:absolute;top:-300px;right:-160px;width:620px;
-  height:620px;border-radius:50%;
-  background:radial-gradient(circle,rgba(13,127,114,.28),transparent 62%)}
-.eyebrow{display:inline-flex;align-items:center;gap:9px;color:#5fdcc9;
+/* ============ NAV ============ */
+nav{background:rgba(255,255,255,.92);backdrop-filter:saturate(180%) blur(14px);
+  border-bottom:1px solid var(--line);position:sticky;top:0;z-index:60}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:66px}
+nav a.back{color:var(--muted);text-decoration:none;font-size:15px;
+  display:flex;align-items:center;gap:7px;transition:color .2s,transform .2s var(--ease)}
+nav a.back:hover{color:var(--ink);transform:translateX(-3px)}
+
+/* ============ HERO + FONDO ANIMADO ============ */
+header{background:var(--ink);color:#fff;position:relative;overflow:hidden;
+  padding:78px 0 70px}
+.hgrid{position:absolute;inset:0;opacity:.055;
+  background-image:linear-gradient(#fff 1px,transparent 1px),
+    linear-gradient(90deg,#fff 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(ellipse 76% 68% at 46% 42%,#000,transparent)}
+.hglow{position:absolute;border-radius:50%;filter:blur(96px);pointer-events:none}
+.hglow.a{width:660px;height:660px;background:rgba(13,127,114,.34);
+  top:-300px;right:-170px;animation:drift 20s ease-in-out infinite alternate}
+.hglow.b{width:520px;height:520px;background:rgba(52,96,168,.20);
+  bottom:-250px;left:-190px;animation:drift 26s ease-in-out infinite alternate-reverse}
+@keyframes drift{0%{transform:translate(0,0) scale(1)}
+  100%{transform:translate(-64px,46px) scale(1.14)}}
+/* scanline que recorre el header */
+.scanline{position:absolute;left:0;right:0;height:110px;pointer-events:none;
+  background:linear-gradient(180deg,transparent,
+    rgba(95,220,201,.075),transparent);animation:scan 6.5s linear infinite}
+@keyframes scan{0%{top:-110px}100%{top:100%}}
+
+.eyebrow{display:inline-flex;align-items:center;gap:9px;color:var(--mint);
   font-size:12.5px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;
-  margin-bottom:22px}
-.eyebrow::before{content:'';width:26px;height:1.5px;background:#5fdcc9}
+  margin-bottom:22px;position:relative;z-index:2}
+.eyebrow::before{content:'';width:26px;height:1.5px;background:var(--mint)}
 h1{font-family:var(--display);font-size:50px;line-height:1.08;font-weight:700;
   letter-spacing:-2px;margin-bottom:20px;position:relative;z-index:2}
-h1 em{font-style:normal;color:#5fdcc9}
-.lede{font-size:19px;line-height:1.6;color:#c2d3e6;max-width:600px;
-  margin-bottom:34px;position:relative;z-index:2}
-.price-row{display:flex;align-items:baseline;gap:14px;margin-bottom:8px;
-  position:relative;z-index:2}
-.price{font-family:var(--display);font-size:64px;font-weight:700;color:#fff;
-  letter-spacing:-3px;line-height:1}
-.price-note{color:#8ba1bb;font-size:15px}
-.trust{display:flex;gap:24px;margin-top:26px;flex-wrap:wrap;
-  position:relative;z-index:2}
-.trust span{display:flex;align-items:center;gap:8px;font-size:14px;color:#a9bdd4}
-.trust span::before{content:'';width:5px;height:5px;border-radius:50%;
-  background:#5fdcc9;flex:0 0 5px}
+h1 .w{display:inline-block;opacity:0;transform:translateY(70%) rotate(3deg);
+  animation:wordUp .8s var(--ease) forwards}
+@keyframes wordUp{to{opacity:1;transform:none}}
+h1 em{font-style:normal;color:var(--mint)}
+.lede{font-size:19px;line-height:1.6;color:#c2d3e6;max-width:610px;
+  margin-bottom:36px;position:relative;z-index:2}
 
-/* TWO COL */
 .two{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;
-  align-items:center;position:relative;z-index:2;margin-top:44px}
+  align-items:center;position:relative;z-index:2;margin-top:40px}
+.price-row{display:flex;align-items:baseline;gap:14px;margin-bottom:10px}
+.price{font-family:var(--display);font-size:66px;font-weight:700;color:#fff;
+  letter-spacing:-3.2px;line-height:1;font-variant-numeric:tabular-nums}
+.price-note{color:#8ba1bb;font-size:15px}
+.trust{display:flex;gap:22px;margin-top:26px;flex-wrap:wrap}
+.trust span{display:flex;align-items:center;gap:8px;font-size:14px;color:#a9bdd4;
+  white-space:nowrap}
+.trust span::before{content:'';width:5px;height:5px;border-radius:50%;
+  background:var(--mint);flex:0 0 5px;
+  animation:blink 2.4s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
 
-/* PREVIEW */
-.prev{background:#fbfcfd;border-radius:11px;overflow:hidden;
-  box-shadow:0 26px 64px rgba(0,0,0,.34)}
+/* ============ PREVIEW con scan + filas escalonadas ============ */
+.prev{background:#fbfcfd;border-radius:11px;overflow:hidden;position:relative;
+  box-shadow:0 28px 68px rgba(0,0,0,.36)}
 .prev-bar{background:#eef3f8;padding:11px 15px;display:flex;align-items:center;
-  gap:7px;border-bottom:1px solid var(--line)}
+  gap:7px;border-bottom:1px solid var(--line);position:relative;z-index:2}
 .prev-bar i{width:9px;height:9px;border-radius:50%;background:#ccd9e6;display:block}
 .prev-bar b{margin-left:9px;font-family:var(--mono);font-size:11.5px;
   color:var(--muted);font-weight:500}
 .prev-bar .tag{margin-left:auto;background:var(--amber-l);color:var(--amber);
   padding:2.5px 9px;border-radius:4px;font-size:10px;font-weight:700;
   text-transform:uppercase;letter-spacing:.6px}
-.prev-body{padding:24px}
+.pscan{position:absolute;left:0;right:0;height:58px;pointer-events:none;z-index:3;
+  background:linear-gradient(180deg,transparent,rgba(13,127,114,.10),transparent)}
+.prev-body{padding:24px;position:relative}
 .pv-lab{font-family:var(--mono);font-size:11px;color:var(--muted);
   text-transform:uppercase;letter-spacing:1.1px;margin-bottom:12px}
 .pv-big{font-family:var(--display);font-size:42px;font-weight:700;
   color:var(--teal);letter-spacing:-2px;line-height:1;margin-bottom:20px;
-  padding-bottom:20px;border-bottom:1px solid var(--line)}
-.pv-row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;
-  font-size:14px;border-bottom:1px solid #eef3f8}
-.pv-row:last-of-type{border-bottom:0}
+  padding-bottom:20px;border-bottom:1px solid var(--line);
+  font-variant-numeric:tabular-nums}
+.pv-row{display:flex;justify-content:space-between;gap:12px;padding:8px 11px;
+  font-size:14px;border-radius:5px;opacity:0;transform:translateX(-16px);
+  transition:opacity .55s var(--ease),transform .55s var(--ease),
+    background .2s}
+.pv-row.in{opacity:1;transform:none}
+.pv-row:hover{background:#eef4f8}
 .pv-row .k{color:var(--body)}
-.pv-row .v{font-family:var(--mono);font-weight:500;color:var(--ink);font-size:13px}
+.pv-row .v{font-family:var(--mono);font-weight:500;color:var(--ink);font-size:13px;
+  font-variant-numeric:tabular-nums}
 
-/* SECTIONS */
-section{padding:72px 0}
+/* ============ DEMO DE DEDUPE (el producto, animado) ============ */
+.demo{background:var(--ink);border-radius:13px;padding:36px 34px;color:#fff;
+  position:relative;overflow:hidden}
+.demo::before{content:'';position:absolute;top:-160px;left:50%;
+  transform:translateX(-50%);width:440px;height:440px;border-radius:50%;
+  background:radial-gradient(circle,rgba(13,127,114,.26),transparent 65%)}
+.demo-h{font-family:var(--mono);font-size:11px;color:#7f9ab8;
+  text-transform:uppercase;letter-spacing:1.2px;margin-bottom:26px;
+  position:relative;z-index:2}
+.rec{display:grid;gap:12px;position:relative;z-index:2;
+  transition:transform .9s var(--ease),opacity .9s var(--ease)}
+.rec-line{display:grid;grid-template-columns:auto 1fr auto;gap:16px;
+  align-items:center;background:rgba(255,255,255,.045);
+  border:1px solid rgba(255,255,255,.10);border-radius:9px;padding:15px 18px;
+  transition:border-color .4s,background .4s}
+.rec .nm{font-family:var(--mono);font-size:14.5px;color:#e2ecf6}
+.rec .dm{font-size:12.5px;color:#7f9ab8;font-family:var(--mono)}
+.rec .tagm{font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:.7px;padding:3px 9px;border-radius:4px;text-transform:uppercase}
+.rec .tagm.keep{background:rgba(95,220,201,.16);color:var(--mint)}
+.rec .tagm.dup{background:rgba(194,118,10,.20);color:#e8a83c}
+.merge-line{height:2px;margin:0 0 0 46px;width:0;border-radius:2px;
+  background:linear-gradient(90deg,var(--mint),transparent);
+  transition:width 1s var(--ease)}
+.merge-txt{font-family:var(--mono);font-size:11.5px;color:var(--mint);
+  margin:12px 0 0 46px;opacity:0;transform:translateY(6px);
+  transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.merge-txt.on{opacity:1;transform:none}
+.demo.merged .rec.dup{transform:translateX(26px);opacity:.32;
+  border-color:rgba(194,118,10,.3)}
+.demo.merged .merge-line{width:min(240px,42%)}
+.demo.merged .merge-txt{opacity:1;transform:none}
+
+/* ============ SECCIONES ============ */
+section{padding:74px 0;position:relative}
 section.alt{background:var(--bg)}
 h2{font-family:var(--display);font-size:34px;font-weight:700;color:var(--ink);
   letter-spacing:-1.2px;line-height:1.15;margin-bottom:14px}
@@ -104,147 +193,240 @@ h2{font-family:var(--display);font-size:34px;font-weight:700;color:var(--ink);
 .kicker{font-family:var(--mono);font-size:12px;color:var(--teal);
   text-transform:uppercase;letter-spacing:1.3px;margin-bottom:13px;display:block}
 
-/* INCLUDES */
-.inc{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);
-  border:1px solid var(--line);border-radius:10px;overflow:hidden}
-.ic{background:#fff;padding:28px 26px}
+/* cards con tilt 3D */
+.inc{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.ic{background:#fff;border:1px solid var(--line);border-radius:11px;
+  padding:28px 26px;transform-style:preserve-3d;
+  transition:border-color .28s,box-shadow .28s,transform .28s var(--ease)}
+.ic:hover{border-color:#a9ccc4;box-shadow:0 12px 32px rgba(13,127,114,.08)}
+.ic .num{font-family:var(--mono);font-size:11px;color:var(--teal);
+  letter-spacing:1px;margin-bottom:13px;display:block}
 .ic h3{font-family:var(--display);font-size:18px;color:var(--ink);font-weight:600;
   margin-bottom:9px;letter-spacing:-.3px}
 .ic p{font-size:15px;line-height:1.6}
-.ic .num{font-family:var(--mono);font-size:11px;color:var(--teal);
-  letter-spacing:1px;margin-bottom:13px;display:block}
 
-/* STEPS */
+/* steps con barra de progreso */
 .steps{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);
-  border-radius:10px;overflow:hidden}
+  border-radius:11px;overflow:hidden}
 .step{display:grid;grid-template-columns:56px 1fr auto;gap:18px;
-  align-items:center;padding:22px 26px;background:#fff}
+  align-items:center;padding:22px 26px;background:#fff;
+  transition:background .25s}
+.step:hover{background:#f9fcfc}
 .step .n{font-family:var(--display);font-size:24px;font-weight:700;
-  color:var(--line);letter-spacing:-1px}
-.step h4{font-family:var(--display);font-size:17px;color:var(--ink);
-  font-weight:600;margin-bottom:5px}
+  color:var(--line);letter-spacing:-1px;transition:color .3s}
+.step:hover .n{color:var(--teal)}
+.step h4{font-family:var(--display);font-size:17px;color:var(--ink);font-weight:600;
+  margin-bottom:5px}
 .step p{font-size:15px;color:var(--muted);line-height:1.55}
 .step .t{font-family:var(--mono);font-size:11.5px;color:var(--muted);
   white-space:nowrap;padding:5px 11px;background:var(--bg);border-radius:4px}
+.prog{height:3px;background:var(--line);position:relative;overflow:hidden}
+.prog i{position:absolute;inset:0;
+  background:linear-gradient(90deg,var(--teal),var(--mint));
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 1.7s var(--ease)}
+.prog.in i{transform:scaleX(1)}
 
-/* BUY BOX */
+/* ============ BUY BOX con spotlight ============ */
 .buy{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start}
-.box{background:#fff;border:1.5px solid var(--teal);border-radius:13px;padding:32px;
+.box{background:#fff;border:1.5px solid var(--teal);border-radius:13px;
+  padding:32px;position:relative;overflow:hidden;
   box-shadow:0 14px 40px rgba(13,127,114,.09)}
+.box .spot{position:absolute;width:340px;height:340px;border-radius:50%;
+  pointer-events:none;opacity:0;transform:translate(-50%,-50%);
+  background:radial-gradient(circle,rgba(13,127,114,.11),transparent 66%);
+  transition:opacity .3s}
+.box:hover .spot{opacity:1}
+.box > *{position:relative;z-index:2}
 .box .amt{font-family:var(--display);font-size:52px;font-weight:700;
-  color:var(--ink);letter-spacing:-2.4px;line-height:1;margin-bottom:6px}
-.box .per{color:var(--muted);font-size:15px;margin-bottom:22px}
-.btn{display:block;width:100%;text-align:center;background:var(--teal);color:#fff;
-  padding:17px;border-radius:8px;text-decoration:none;font-weight:600;
-  font-size:17px;transition:background .2s,transform .2s var(--ease);
-  border:0;cursor:pointer;font-family:var(--sans)}
-.btn:hover{background:var(--teal-d);transform:translateY(-1px)}
+  color:var(--ink);letter-spacing:-2.4px;line-height:1;margin-bottom:6px;
+  font-variant-numeric:tabular-nums}
+.box .per{color:var(--muted);font-size:15px;margin-bottom:24px}
+
+/* boton magnetico + shine */
+.btn{display:block;width:100%;text-align:center;background:var(--teal);
+  color:#fff;padding:17px;border-radius:8px;text-decoration:none;font-weight:600;
+  font-size:17px;cursor:pointer;font-family:var(--sans);position:relative;
+  overflow:hidden;border:0;
+  transition:background .2s,transform .35s var(--ease);
+  will-change:transform}
+.btn:hover{background:var(--teal-d)}
+.btn .shine{position:absolute;top:0;bottom:0;width:44%;left:-60%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.30),
+    transparent);transform:skewX(-18deg)}
+.btn:hover .shine{animation:shine .95s var(--ease)}
+@keyframes shine{to{left:120%}}
+.btn .txt{position:relative;z-index:2}
+.btn:focus-visible{outline:3px solid rgba(13,127,114,.35);outline-offset:3px}
+
 .box .guar{margin-top:16px;font-size:13.5px;color:var(--muted);line-height:1.55;
   text-align:center}
 .alt-opts{display:grid;gap:16px}
-.opt{border:1px solid var(--line);border-radius:10px;padding:22px;background:#fff;
-  transition:border-color .2s}
-.opt:hover{border-color:#a9ccc4}
+.opt{border:1px solid var(--line);border-radius:11px;padding:22px;background:#fff;
+  transition:border-color .25s,transform .25s var(--ease),box-shadow .25s;
+  transform-style:preserve-3d}
+.opt:hover{border-color:#a9ccc4;transform:translateY(-2px);
+  box-shadow:0 10px 28px rgba(13,127,114,.07)}
 .opt h4{font-family:var(--display);font-size:17px;color:var(--ink);font-weight:600;
   margin-bottom:6px}
 .opt p{font-size:14.5px;color:var(--muted);line-height:1.55;margin-bottom:9px}
 .opt .p{font-family:var(--display);font-size:22px;font-weight:700;color:var(--teal);
-  letter-spacing:-.8px}
+  letter-spacing:-.8px;font-variant-numeric:tabular-nums}
 
 /* FAQ */
 .faq details{border-bottom:1px solid var(--line);padding:20px 0}
 .faq summary{cursor:pointer;font-family:var(--display);font-size:17px;
   font-weight:600;color:var(--ink);list-style:none;display:flex;
-  justify-content:space-between;gap:16px}
+  justify-content:space-between;gap:16px;align-items:center;
+  transition:color .2s}
 .faq summary::-webkit-details-marker{display:none}
-.faq p{margin-top:14px;font-size:15.5px;line-height:1.65;max-width:680px}
+.faq summary .pm{width:26px;height:26px;border:1.5px solid var(--line);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  flex:0 0 26px;position:relative;transition:transform .35s var(--ease),
+  border-color .22s}
+.faq summary .pm::before,.faq summary .pm::after{content:'';position:absolute;
+  background:var(--ink);transition:transform .35s var(--ease),opacity .22s}
+.faq summary .pm::before{width:11px;height:1.6px}
+.faq summary .pm::after{width:1.6px;height:11px}
+.faq details[open] summary .pm{border-color:var(--teal);transform:rotate(180deg)}
+.faq details[open] summary .pm::after{transform:scaleY(0);opacity:0}
+.faq details[open] summary .pm::before{background:var(--teal-d)}
+.faq p{margin-top:14px;font-size:15.5px;line-height:1.65;max-width:690px}
 
 footer{background:#060d19;color:#6b7f9b;padding:32px 0;font-size:14px}
 footer b{color:#c2d3e6;font-weight:500}
 
 @media(max-width:900px){
   .two,.buy,.inc{grid-template-columns:1fr}
-  h1{font-size:38px}.price{font-size:50px}
+  h1{font-size:38px}.price{font-size:52px}
   .step{grid-template-columns:44px 1fr;gap:14px}
   .step .t{grid-column:2;justify-self:start}
+  .demo{padding:26px 22px}
 }
 @media(max-width:560px){.wrap{padding:0 20px}h1{font-size:30px}}
 
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
-  .rv{opacity:1;transform:none}}
+  .rv,.rv-l{opacity:1;transform:none}
+  h1 .w{opacity:1;transform:none}
+  .pv-row{opacity:1;transform:none}
+  .demo.merged .rec.dup{transform:none;opacity:1}
+  .merge-line{width:min(240px,42%)}.merge-txt{opacity:1;transform:none}
+  .prog i{transform:scaleX(1)}
+}
 </style></head><body>
 
 <nav><div class="wrap">
-  <a class="brand" href="index.html"><span class="mark"></span>CRM Cleanup</a>
+  <a class="brand" href="index.html">
+    <svg class="logo logo-solo" width="30" height="30" viewBox="0 0 40 40"
+         aria-label="CRM Cleanup">
+      <circle class="disc-a" cx="20" cy="20" r="12" fill="#0d7f72" opacity=".9"/>
+      <circle class="disc-b" cx="20" cy="20" r="12" fill="none"
+              stroke="#0d7f72" stroke-width="2"/>
+      <path class="mline" d="M20 8v24" stroke="#5fdcc9" stroke-width="2"
+            stroke-linecap="round"/>
+    </svg>
+    CRM Cleanup
+  </a>
   <a class="back" href="index.html">&larr; Back to overview</a>
 </div></nav>
 
-<header><div class="wrap">
-  <div class="eyebrow">Fixed scope &middot; 48 hours</div>
-  <h1>Find out what your dirty CRM<br><em>actually costs you.</em></h1>
-  <p class="lede">Send me your CRM export. I run a full data quality audit
-  and hand you a report with the annual cost in wasted rep hours and
-  unworked leads &mdash; calculated from your own cost per rep, not an
-  industry average.</p>
+<header>
+  <div class="hgrid"></div><div class="hglow a"></div><div class="hglow b"></div>
+  <div class="scanline"></div>
+  <div class="wrap">
+    <div class="eyebrow">Fixed scope &middot; 48 hours</div>
+    <h1><span class="w" style="animation-delay:0s">Find</span> <span class="w" style="animation-delay:.055s">out</span> <span class="w" style="animation-delay:.11s">what</span> <span class="w" style="animation-delay:.165s">your</span> <span class="w" style="animation-delay:.22s">dirty</span> <span class="w" style="animation-delay:.275s">CRM</span> <span class="w" style="animation-delay:.33s"><em>actually costs you.</em></span></h1>
+    <p class="lede">Send me your CRM export. I run a full data quality audit
+    and hand you a report with the annual cost in wasted rep hours and
+    unworked leads &mdash; calculated from your own cost per rep, not an
+    industry average.</p>
 
-  <div class="two">
-    <div>
-      <div class="price-row">
-        <span class="price">$149</span>
-        <span class="price-note">one-time &middot; fixed scope</span>
+    <div class="two">
+      <div>
+        <div class="price-row">
+          <span class="price" data-count="149" data-prefix="$">$0</span>
+          <span class="price-note">one-time &middot; fixed scope</span>
+        </div>
+        <div class="trust">
+          <span>48-hour turnaround</span>
+          <span>Your CRM never connected</span>
+          <span>Nothing deleted</span>
+        </div>
       </div>
-      <div class="trust">
-        <span>48-hour turnaround</span>
-        <span>Your CRM never connected</span>
-        <span>Nothing deleted</span>
-      </div>
-    </div>
-    <div class="prev">
-      <div class="prev-bar">
-        <i></i><i></i><i></i>
-        <b>crm-data-audit-report.pdf</b>
-        <span class="tag">sample</span>
-      </div>
-      <div class="prev-body">
-        <div class="pv-lab">Estimated annual cost of your data quality</div>
-        <div class="pv-big">$15,657</div>
-        <div class="pv-row"><span class="k">Rep hours on dedupe &amp; lookups</span><span class="v">$12,157</span></div>
-        <div class="pv-row"><span class="k">Revenue from forgotten leads</span><span class="v">$3,500</span></div>
-        <div class="pv-row"><span class="k">Bounced sends &amp; reputation</span><span class="v">$0</span></div>
-        <div class="pv-row"><span class="k">Duplicates resolved</span><span class="v">119</span></div>
-        <div class="pv-row"><span class="k">Empty fields recovered</span><span class="v">92</span></div>
+      <div class="prev">
+        <div class="pscan"></div>
+        <div class="prev-bar">
+          <i></i><i></i><i></i>
+          <b>crm-data-audit-report.pdf</b>
+          <span class="tag">sample</span>
+        </div>
+        <div class="prev-body">
+          <div class="pv-lab">Estimated annual cost of your data quality</div>
+          <div class="pv-big" data-count="15657" data-prefix="$">$0</div>
+          <div class="pv-row"><span class="k">Rep hours on dedupe &amp; lookups</span><span class="v">$12,157</span></div>
+          <div class="pv-row"><span class="k">Revenue from forgotten leads</span><span class="v">$3,500</span></div>
+          <div class="pv-row"><span class="k">Bounced sends &amp; reputation</span><span class="v">$0</span></div>
+          <div class="pv-row"><span class="k">Duplicates resolved</span><span class="v">119</span></div>
+          <div class="pv-row"><span class="k">Empty fields recovered</span><span class="v">92</span></div>
+        </div>
       </div>
     </div>
   </div>
-</div></header>
+</header>
 
 <section><div class="wrap">
-  <span class="kicker rv">What you get</span>
-  <h2 class="rv">A report, not a sales call.</h2>
-  <p class="sub rv">Fixed scope, one price. No hourly billing, no discovery
-  fee, no obligation to buy anything else.</p>
-  <div class="inc rv">
-    <div class="ic"><span class="num">01 / RESOLUTION</span>
-      <h3>Duplicate records resolved by entity</h3>
-      <p>"John Smith", "J. Smith" and "Jon Smyth" at one company resolve to
-      one person. Exact-match dedupe catches none of them.</p></div>
-    <div class="ic"><span class="num">02 / RECOVERY</span>
-      <h3>Empty fields recovered</h3>
-      <p>Values held in one duplicate fill blanks in another. 92 recovered on
-      the sample run. Merging without this destroys data.</p></div>
-    <div class="ic"><span class="num">03 / STALENESS</span>
-      <h3>Forgotten leads separated from dead ones</h3>
-      <p>90+ days of no activity, split from already-closed records. A list
-      you can actually work.</p></div>
-    <div class="ic"><span class="num">04 / EMAIL HYGIENE</span>
-      <h3>Emails that will actually bounce</h3>
-      <p>MX records checked live. On a bad list this was 37.5% of unique
-      addresses &mdash; each one is a damaged sending reputation.</p></div>
+  <span class="kicker rv">What it looks like</span>
+  <h2 class="rv">This is the whole product.</h2>
+  <p class="sub rv">Two records that are the same person, resolved into
+  one. Not a fuzzy guess: name, company and phone have to agree, and the
+  merge ships with the score that justified it.</p>
+
+  <div class="demo rv" id="demo">
+    <div class="demo-h">entity resolution &middot; live</div>
+    <div class="rec">
+      <div class="rec-line">
+        <span class="nm">John Smith</span>
+        <span class="dm">stark.com &middot; 555-0142</span>
+        <span class="tagm keep">keep</span>
+      </div>
+      <div class="rec-line rec.dup">
+        <span class="nm">J. Smith</span>
+        <span class="dm">STARK INDUSTRIES &middot; 555-0142</span>
+        <span class="tagm dup">duplicate</span>
+      </div>
+      <div class="merge-line"></div>
+      <div class="merge-txt">merged &mdash; 3 fields recovered, 1 record survives</div>
+    </div>
   </div>
 </div></section>
 
 <section class="alt"><div class="wrap">
+  <span class="kicker rv">What you get</span>
+  <h2 class="rv">A report, not a sales call.</h2>
+  <p class="sub rv">Fixed scope, one price. No hourly billing, no discovery
+  fee, no obligation to buy anything else.</p>
+  <div class="inc">
+    <div class="ic rv d1"><span class="num">01 / RESOLUTION</span>
+      <h3>Duplicates resolved by entity</h3>
+      <p>"John Smith", "J. Smith" and "Jon Smyth" at one company resolve to
+      one person. Exact-match dedupe catches none of them.</p></div>
+    <div class="ic rv d2"><span class="num">02 / RECOVERY</span>
+      <h3>Empty fields recovered</h3>
+      <p>Values held in one duplicate fill blanks in another. 92 recovered on
+      the sample run. Merging without this destroys data.</p></div>
+    <div class="ic rv d3"><span class="num">03 / STALENESS</span>
+      <h3>Forgotten leads separated from dead ones</h3>
+      <p>90+ days of no activity, split from already-closed records. A list
+      you can actually work.</p></div>
+    <div class="ic rv d4"><span class="num">04 / EMAIL HYGIENE</span>
+      <h3>Emails that will actually bounce</h3>
+      <p>MX records checked live. On a bad list this was 37.5% of unique
+      addresses &mdash; each one damages your sending reputation.</p></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
   <span class="kicker rv">Process</span>
   <h2 class="rv">Four steps, no meetings.</h2>
   <div class="steps rv">
@@ -269,34 +451,39 @@ footer b{color:#c2d3e6;font-weight:500}
         follow-up sequence.</p></div>
       <div class="t">your call</div></div>
   </div>
+  <div class="prog rv d2"><i></i></div>
 </div></section>
 
-<section><div class="wrap">
+<section class="alt"><div class="wrap">
   <span class="kicker rv">Get started</span>
   <h2 class="rv">Buy the report.</h2>
   <p class="sub rv">If the number is worth more than $149, you already know
   what to do with it. If it isn't, you kept a free audit of your own data.</p>
 
   <div class="buy">
-    <div class="box rv">
+    <div class="box rv" id="box">
+      <div class="spot"></div>
       <div class="amt">$149</div>
       <div class="per">Fixed scope &middot; one time &middot; 48 hours</div>
-      <a class="btn" href="mailto:proposals@outreach.cesarbuilds.com?subject=CRM%20Data%20Audit%20%24%20149&amp;body=Hi%20Cesar%2C%0A%0AI'd%20like%20to%20buy%20the%20CRM%20data%20audit%20report%20for%20%24149.%0A%0AName%3A%0ACompany%3A%0ACRM%3A%0AApprox%20records%3A%0A%0AI'll%20send%20my%20export%20once%20you%20send%20the%20payment%20link.%0A%0AThanks%21">Request the audit &rarr;</a>
+      <a class="btn" id="buy" href="mailto:proposals@outreach.cesarbuilds.com?subject=CRM%20Data%20Audit%20%24%20149&amp;body=Hi%20Cesar%2C%0A%0AI'd%20like%20to%20buy%20the%20CRM%20data%20audit%20report%20for%20%24149.%0A%0AName%3A%0ACompany%3A%0ACRM%3A%0AApprox%20records%3A%0A%0AI'll%20send%20my%20export%20once%20you%20send%20the%20payment%20link.%0A%0AThanks%21">
+        <span class="shine"></span>
+        <span class="txt" id="buytxt">Request the audit &rarr;</span>
+      </a>
       <div class="guar">Payment link sent within 24h. Report delivered in
       48h from receiving your export. If the report isn't useful, tell me
       and I'll refund it.</div>
     </div>
 
-    <div class="alt-opts rv rv-d1">
-      <div class="opt"><h4>Full cleanup sprint</h4>
+    <div class="alt-opts">
+      <div class="opt rv-l d1"><h4>Full cleanup sprint</h4>
         <p>Audit plus the actual cleanup: deduplication, normalization,
         enrichment, merge plan approved before anything is applied.</p>
         <span class="p">$12,000</span></div>
-      <div class="opt"><h4>Ongoing hygiene</h4>
+      <div class="opt rv-l d2"><h4>Ongoing hygiene</h4>
         <p>Same audit every month so the data quality doesn't drift back.
         Cancel any month.</p>
         <span class="p">$5,000/mo</span></div>
-      <div class="opt"><h4>Agency / white-label</h4>
+      <div class="opt rv-l d3"><h4>Agency / white-label</h4>
         <p>You keep the client relationship and the margin. I deliver under
         your brand. From $750 per sprint.</p>
         <span class="p">from $750</span></div>
@@ -304,10 +491,10 @@ footer b{color:#c2d3e6;font-weight:500}
   </div>
 </div></section>
 
-<section class="alt"><div class="wrap">
+<section><div class="wrap">
   <span class="kicker rv">FAQ</span>
   <h2 class="rv">Questions</h2>
-  <div class="faq rv rv-d1" style="margin-top:30px">
+  <div class="faq rv d1" style="margin-top:30px">
     <details><summary>Is my data safe?</summary>
       <p>I never connect to your live CRM. You send a CSV export, I work on
       that file, and it's deleted on request after the report. I'd rather
@@ -342,12 +529,158 @@ footer b{color:#c2d3e6;font-weight:500}
 
 <script>
 (function(){
-  var rv=document.querySelectorAll('.rv');
-  if(!('IntersectionObserver' in window)){rv.forEach(function(e){e.classList.add('in');});return;}
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){
-    if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},
-    {threshold:.12,rootMargin:'0px 0px -50px 0px'});
-  rv.forEach(function(e){io.observe(e);});
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var qs = function(s){ return document.querySelector(s); };
+  var qsa = function(s){ return [].slice.call(document.querySelectorAll(s)); };
+
+  /* ---------- 2. reveal ---------- */
+  var rv = qsa('.rv, .rv-l');
+  if(reduced || !('IntersectionObserver' in window)){
+    rv.forEach(function(e){ e.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, {threshold:.12, rootMargin:'0px 0px -50px 0px'});
+    rv.forEach(function(e){ io.observe(e); });
+  }
+
+  /* ---------- 3. contadores ---------- */
+  function fmt(n){ return n.toLocaleString('en-US'); }
+  function count(el){
+    var target = parseInt(el.getAttribute('data-count'),10);
+    var pre = el.getAttribute('data-prefix')||'';
+    if(reduced){ el.textContent = pre+fmt(target); return; }
+    var t0=null;
+    function step(ts){
+      if(!t0) t0=ts;
+      var p=Math.min((ts-t0)/1500,1);
+      el.textContent = pre+fmt(Math.round(target*(1-Math.pow(1-p,3))));
+      if(p<1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  var cs = qsa('[data-count]');
+  if('IntersectionObserver' in window){
+    var io2 = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ count(e.target); io2.unobserve(e.target); } });
+    }, {threshold:.5});
+    cs.forEach(function(e){ io2.observe(e); });
+  } else { cs.forEach(count); }
+
+  /* ---------- 4. filas del preview escalonadas ---------- */
+  var rows = qsa('.pv-row');
+  function playRows(){
+    rows.forEach(function(r,i){ setTimeout(function(){ r.classList.add('in'); }, 400+i*130); });
+  }
+  if(rows.length){
+    if(reduced || !('IntersectionObserver' in window)){ rows.forEach(function(r){r.classList.add('in');}); }
+    else{
+      var io3 = new IntersectionObserver(function(es){
+        if(es[0].isIntersecting){ playRows(); io3.disconnect(); }
+      }, {threshold:.3});
+      io3.observe(rows[0]);
+    }
+  }
+
+  /* ---------- 5. demo de dedupe: loop de merge ---------- */
+  var demo = qs('#demo');
+  if(demo){
+    if(reduced){ demo.classList.add('merged'); }
+    else{
+      var loop;
+      var start = function(){
+        demo.classList.remove('merged');
+        clearTimeout(loop);
+        loop = setTimeout(function(){
+          demo.classList.add('merged');
+          loop = setTimeout(start, 4200);
+        }, 1600);
+      };
+      // solo cuando la demo esta visible
+      if('IntersectionObserver' in window){
+        var io4 = new IntersectionObserver(function(es){
+          if(es[0].isIntersecting){ start(); io4.disconnect(); }
+        }, {threshold:.45});
+        io4.observe(demo);
+      } else { start(); }
+    }
+  }
+
+  /* ---------- 6. barra de progreso ---------- */
+  var prog = qs('.prog');
+  if(prog){
+    if(reduced || !('IntersectionObserver' in window)) prog.classList.add('in');
+    else{
+      var io5 = new IntersectionObserver(function(es){
+        if(es[0].isIntersecting){ prog.classList.add('in'); io5.disconnect(); }
+      }, {threshold:.3});
+      io5.observe(prog);
+    }
+  }
+
+  /* ---------- 7. spotlight en el buy box ---------- */
+  var box = qs('#box'), spot = qs('.spot');
+  if(box && spot && !reduced && window.matchMedia('(hover:hover)').matches){
+    box.addEventListener('mousemove', function(e){
+      var r = box.getBoundingClientRect();
+      spot.style.left = (e.clientX - r.left) + 'px';
+      spot.style.top  = (e.clientY - r.top)  + 'px';
+    });
+  }
+
+  /* ---------- 8. boton magnetico ---------- */
+  var buy = qs('#buy');
+  if(buy && !reduced && window.matchMedia('(hover:hover)').matches){
+    buy.addEventListener('mousemove', function(e){
+      var r = buy.getBoundingClientRect();
+      var mx = (e.clientX - r.left - r.width/2) * 0.16;
+      var my = (e.clientY - r.top  - r.height/2) * 0.22;
+      buy.style.transform = 'translate('+mx+'px,'+my+'px)';
+    });
+    buy.addEventListener('mouseleave', function(){
+      buy.style.transform = '';
+    });
+  }
+
+  /* ---------- 9. tilt 3D en cards ---------- */
+  if(!reduced && window.matchMedia('(hover:hover)').matches){
+    qsa('.ic, .opt').forEach(function(c){
+      c.addEventListener('mousemove', function(e){
+        var r = c.getBoundingClientRect();
+        var rx = ((e.clientY - r.top) / r.height - .5) * -4;
+        var ry = ((e.clientX - r.left) / r.width - .5) * 4;
+        c.style.transform = 'perspective(700px) rotateX('+rx+'deg) rotateY('+ry+'deg) translateY(-2px)';
+      });
+      c.addEventListener('mouseleave', function(){ c.style.transform=''; });
+    });
+  }
+
+  /* ---------- 10. text scramble en el CTA ---------- */
+  var bt = qs('#buytxt');
+  if(bt && !reduced){
+    var base = bt.innerHTML;
+    var glyphs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#*&@$%';
+    var iv = null;
+    bt.parentElement.addEventListener('mouseenter', function(){
+      var target = base;
+      var i = 0;
+      clearInterval(iv);
+      iv = setInterval(function(){
+        var out = target.split('').map(function(ch,ix){
+          if(ch === ' ' || ch === '-' || ch === '>' || ix < 3) return ch;
+          return Math.random() < .35 ? ch : glyphs[Math.floor(Math.random()*glyphs.length)];
+        }).join('');
+        bt.textContent = out;
+        i++;
+        if(i > 16){ clearInterval(iv); bt.innerHTML = base; }
+      }, 42);
+    });
+    bt.parentElement.addEventListener('mouseleave', function(){
+      clearInterval(iv); bt.innerHTML = base;
+    });
+  }
 })();
 </script>
 
