@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Find out what your dirty CRM is costing you</title>
+<meta name="description" content="Free CRM data quality audit. See how many
+hours your team wastes and how many leads you stopped following up on.
+No cost. Upload your CSV, get numbers you can take to your boss.">
+<style>
+:root{--ink:#111c2e;--muted:#5b6b84;--teal:#0d7d6f;--line:#dbe4ec;--bg:#f7f9fb}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',
+  Helvetica,Arial,sans-serif;color:var(--ink);background:#fff}
+.wrap{max-width:940px;margin:0 auto;padding:0 24px}
+header{background:var(--ink);color:#fff;padding:56px 0 48px}
+header h1{font-size:clamp(28px,5vw,44px);line-height:1.15;margin:0 0 16px;
+  letter-spacing:-.6px}
+header p{font-size:18px;color:#b8c6d8;margin:0 0 28px;max-width:640px}
+.cta{display:inline-block;background:var(--teal);color:#fff;
+  padding:15px 30px;border-radius:4px;text-decoration:none;
+  font-weight:600;font-size:17px}
+.cta:hover{background:#0a6459}
+section{padding:52px 0;border-bottom:1px solid var(--line)}
+h2{font-size:26px;margin:0 0 20px;letter-spacing:-.3px}
+.lead{font-size:19px;color:var(--muted);margin:0 0 28px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:20px;margin:28px 0}
+.card{border:1px solid var(--line);border-radius:5px;padding:22px;
+  background:var(--bg)}
+.card b{display:block;font-size:15px;margin-bottom:7px}
+.card p{margin:0;font-size:14px;color:var(--muted)}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
+  margin:26px 0}
+.m{border:1px solid var(--line);border-radius:4px;padding:18px 12px;
+  text-align:center}
+.m b{display:block;font-size:28px;color:var(--teal);letter-spacing:-.5px}
+.m span{font-size:11px;color:var(--muted);text-transform:uppercase;
+  letter-spacing:.6px}
+.samples{background:var(--bg);border:1px solid var(--line);
+  border-radius:5px;padding:26px;margin:26px 0}
+.samples h3{margin:0 0 6px;font-size:17px}
+.samples p{color:var(--muted);font-size:14px;margin:0 0 18px}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:16px 0}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line)}
+th{font-weight:600;font-size:12px;text-transform:uppercase;
+  letter-spacing:.5px;color:var(--muted)}
+tr:last-child td{border-bottom:none}
+td.num{text-align:right;font-variant-numeric:tabular-nums;
+  font-weight:600;color:var(--teal)}
+form{background:var(--bg);border:1px solid var(--line);border-radius:5px;
+  padding:28px;margin:24px 0}
+label{display:block;font-weight:600;font-size:14px;margin:16px 0 6px}
+input[type=email],input[type=text],select,textarea{width:100%;padding:12px;
+  border:1px solid var(--line);border-radius:4px;font:inherit;font-size:15px;
+  background:#fff}
+input[type=file]{width:100%;padding:14px;border:1px dashed var(--line);
+  border-radius:4px;background:#fff;font:inherit;font-size:14px}
+small{display:block;color:var(--muted);font-size:13px;margin-top:6px}
+button[type=submit]{background:var(--teal);color:#fff;border:0;
+  padding:15px 32px;border-radius:4px;font:inherit;font-weight:600;
+  font-size:16px;cursor:pointer;margin-top:22px}
+button[type=submit]:hover{background:#0a6459}
+.pill{display:inline-block;background:#e6f4f1;color:var(--teal);
+  padding:4px 11px;border-radius:11px;font-size:12px;font-weight:600;
+  margin-bottom:12px}
+ol{color:var(--muted);font-size:15px}
+ol li{margin-bottom:9px}
+.faq details{border-bottom:1px solid var(--line);padding:17px 0}
+.faq summary{cursor:pointer;font-weight:600;font-size:16px}
+.faq p{margin:12px 0 0;color:var(--muted);font-size:15px}
+footer{background:var(--ink);color:#8fa3ba;padding:30px 0;font-size:14px}
+footer b{color:#fff}
+@media(max-width:640px){.metrics{grid-template-columns:repeat(2,1fr)}
+  header{padding:40px 0 36px}}
+</style></head><body>
+
+<header><div class="wrap">
+<h1>Your CRM has a number. Find out what it costs you.</h1>
+<p>Duplicate contacts, empty fields, and leads nobody followed up on.
+The technical report is easy. The cost is what gets approved. Here's
+both.</p>
+<a class="cta" href="#audit">Get your free audit</a>
+</div></header>
+
+<section><div class="wrap">
+<h2>What you actually get</h2>
+<p class="lead">A real report on your own data, produced by an engine I
+built for exactly this. Not a checklist, not a template.</p>
+
+<div class="grid">
+<div class="card"><b>Duplicate records resolved</b>
+<p>Entity resolution, not string matching. "John Smith," "J. Smith" and
+"Jon Smyth" at one company resolve to one person. Exact-match dedupe
+finds none of them.</p></div>
+<div class="card"><b>Empty fields recovered</b>
+<p>When a duplicate has a value the other one is missing, that value is
+recovered instead of lost. On a 500-record sample: 92 blanks filled
+from duplicates.</p></div>
+<div class="card"><b>Forgotten leads surfaced</b>
+<p>Contacts with no activity in 90+ days, separated from records that
+were already closed or never viable. Same thing as your pipeline,
+except honest about it.</p></div>
+<div class="card"><b>The economic number</b>
+<p>Wasted rep hours, unworked leads, and bounce cost, priced from your
+own cost per rep. This is the number that gets budget approved.</p></div>
+</div>
+
+<p class="pill">Real run, 500-record CRM export</p>
+<div class="metrics">
+<div class="m"><b>500&rarr;381</b><span>records</span></div>
+<div class="m"><b>119</b><span>duplicates</span></div>
+<div class="m"><b>92</b><span>fields recovered</span></div>
+<div class="m"><b>300</b><span>stale flagged</span></div>
+</div>
+
+<table>
+<tr><th>What it costs per year</th><th style="text-align:right">Estimate</th></tr>
+<tr><td>Rep time on deduplication and manual lookups</td>
+<td class="num">$12,157</td></tr>
+<tr><td>Revenue from forgotten leads, if followed up</td>
+<td class="num">$3,500</td></tr>
+<tr><td><b>Total annual cost of the data quality</b></td>
+<td class="num">$15,657</td></tr>
+</table>
+<p style="font-size:14px;color:var(--muted)">Every assumption is in the
+report and adjustable. If your cost per rep differs, I recalculate.
+These figures come from that export, not from an industry average.</p>
+</div></section>
+
+<section><div class="wrap">
+<h2>Nothing gets deleted. Ever.</h2>
+<p class="lead">A cleanup tool that deletes records without showing you
+first is a liability. This one doesn't.</p>
+<div class="samples">
+<h3>You receive four files</h3>
+<p>Everything is a proposal until you approve it.</p>
+<table>
+<tr><th>File</th><th>What it is</th></tr>
+<tr><td><code>before.csv</code></td><td>Your original export, untouched</td></tr>
+<tr><td><code>after.csv</code></td><td>The proposed clean version</td></tr>
+<tr><td><code>merge_plan.json</code></td><td>Every merge with the score that
+justified it, and which record survives</td></tr>
+<tr><td><code>summary.json</code></td><td>Before/after metrics and the economic
+model</td></tr>
+</table>
+<p style="font-size:14px;color:var(--muted);margin:0">Borderline pairs (78%
+to 87% match, for example) go to a manual review list instead of being
+merged automatically. If the plan is wrong, nothing happens.</p>
+</div>
+</div></section>
+
+<section><div class="wrap">
+<h2>How it works</h2>
+<ol>
+<li>You export your CRM to CSV. HubSpot, Salesforce, Pipedrive, Zoho,
+Dynamics all work.</li>
+<li>You upload it below. I run the audit on a copy. Your live CRM is
+never connected to.</li>
+<li>You get the report: duplicates, stale records, malformed fields,
+and what it costs.</li>
+<li>If you want the cleanup, we do it as a fixed-price sprint. If not,
+you keep the report and owe nothing.</li>
+</ol>
+</div></section>
+
+<section id="audit"><div class="wrap">
+<h2>Get your free audit</h2>
+<p class="lead">Upload your CSV. You get the full report back, free,
+with no obligation to buy anything.</p>
+
+<form id="leadform" novalidate>
+<label for="n">Name</label>
+<input type="text" id="n" name="nombre" required autocomplete="name">
+
+<label for="e">Work email</label>
+<input type="email" id="e" name="email" required autocomplete="email">
+
+<label for="c">CRM you're using</label>
+<select id="c" name="crm">
+<option>HubSpot</option><option>Salesforce</option>
+<option>Pipedrive</option><option>Zoho CRM</option>
+<option>Microsoft Dynamics</option><option>Other / not sure</option>
+</select>
+
+<label for="m">What's the problem? (optional)</label>
+<textarea id="m" name="notas" rows="4"
+  placeholder="e.g. 40k records, reporting is wrong. Or: we migrated from Salesforce in 2024 and the numbers never added up. Or: our reps keep emailing the same leads twice."></textarea>
+
+<label for="r">Roughly how many records?</label>
+<select id="r" name="registros">
+<option value="">Not sure</option>
+<option>Under 1,000</option>
+<option>1,000 - 10,000</option>
+<option>10,000 - 50,000</option>
+<option>Over 50,000</option>
+</select>
+
+<button type="submit">Request my free audit</button>
+<small>I'll reply within 24 hours with a link to send your export.
+No sales call unless you ask for one.</small>
+</form>
+
+<p id="ok" style="display:none;background:#e6f4f1;border:1px solid #b8ded7;
+  color:#0d7d6f;padding:16px;border-radius:4px;font-weight:600">
+Your email app should have opened with the request. If it didn't,
+email proposals@outreach.cesarbuilds.com directly.
+</p>
+</div></section>
+
+<section class="faq"><div class="wrap">
+<h2>Questions</h2>
+<details><summary>Is my data safe?</summary>
+<p>I never connect to your live CRM. You upload a CSV export and I work
+on that file. The audit runs locally, nothing is uploaded to a third
+party, and you can ask for the file to be deleted when we're done.</p>
+</details>
+<details><summary>What if my CSV has messy column names?</summary>
+<p>That's normal and it's handled. <code>Email</code>, <code>Correo</code>,
+<code>work_email</code> and <code>E-mail Address</code> all map to the same
+field. Same for phone, company, and last-activity date in English or
+Spanish.</p>
+</details>
+<details><summary>How is 23.8% duplicates a real number, not a guess?</summary>
+<p>It's from a 500-record export built to reproduce a CRM that hasn't been
+governed for a few years. 117 duplicates were exact matches on email or
+phone; 2 were fuzzy matches on name plus company. Those 2 are the ones
+that matter — a spreadsheet never catches them.</p>
+</details>
+<details><summary>Why won't it just delete the duplicates?</summary>
+<p>Because a shared office phone or a reassigned mobile is not proof that
+two records are the same person. During testing, phone-only matching
+merged two different customers. It now needs two independent signals
+before it merges anything, and everything goes to a review plan first.</p>
+</details>
+<details><summary>What does the cleanup cost if I go ahead?</summary>
+<p>Audit and plan: $3,000. Full cleanup: $12,000. Ongoing monthly hygiene:
+$5,000/mo. Those come from the economic model, not a package sheet — if
+your data is in better shape, the price is lower.</p>
+</details>
+</div></section>
+
+<footer><div class="wrap">
+<b>Cesar Rosales &middot; CRM Cleanup</b><br>
+Data quality for small B2B teams. Entity resolution, deduplication,
+and the economic case for fixing it.
+</div></footer>
+
+
+<script>
+// 🟣 CRM CLEANUP — el form no puede hacer POST a un sitio estatico.
+// Arma un mailto: abre el cliente de correo con los datos ya escritos.
+// Sin backend, sin KYC, sin perder el lead.
+document.getElementById('leadform').addEventListener('submit', function(e){
+  e.preventDefault();
+  var g = function(id){ return (document.getElementById(id)||{}).value||''; };
+  var cuerpo =
+    "Name: " + g('n') + "\n" +
+    "Email: " + g('e') + "\n" +
+    "CRM: " + g('c') + "\n" +
+    "Records: " + g('r') + "\n" +
+    "Problem: " + g('m') + "\n\n" +
+    "---\n" +
+    "Please send me my free CRM data quality audit.\n" +
+    "I'll reply with a link to upload my CRM export.";
+  window.location.href = "mailto:proposals@outreach.cesarbuilds.com"
+    + "?subject=" + encodeURIComponent("Free CRM audit request - " + g('n'))
+    + "&body=" + encodeURIComponent(cuerpo);
+  document.getElementById('ok').style.display = 'block';
+  document.getElementById('leadform').style.display = 'none';
+});
+</script>
+</body></html>
